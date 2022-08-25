@@ -7,4 +7,4 @@ Integrantes:
 - 25988 - Pablo Magnavachi
 - 26190 - Agustín Hernán Vuelta
 
-- Juego similar a Bomberman
+Juego similar a Bomberman
