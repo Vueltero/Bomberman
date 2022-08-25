@@ -1,8 +1,4 @@
 # Bomberman
-Juego para TP Laboratorio 2
-
-
-
 Nombre del equipo: Team TNT
 
 Integrantes:
