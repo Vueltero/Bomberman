@@ -1,4 +1,6 @@
 # Bomberman
+![](https://github.com/Vueltero/Bomberman/blob/main/Assets/Sprites/man.png)
+
 Nombre del equipo: Team TNT
 
 Integrantes:
