@@ -8,14 +8,33 @@ public class GameManager : MonoBehaviour
     public float unbreakableTilesPercentage = 20;
     public float breakableTilesPercentage = 40;
 
+    public int score;
+
+    public GameObject wall, softBlock, enemy;
+    public GameObject Walls, Enemies;
+
     void Start()
     {
-        
+        LoadSave();
+        GenerateLevel();
     }
 
-    void Update()
+    private void LoadSave()
     {
-        
+        PlayerData data = SaveSystem.LoadPlayer();
+        if (data != null)
+        {
+            score = data.score;
+        }
+        else
+        {
+            score = 0;
+        }
+    }
+
+    public void SavePlayer()
+    {
+        SaveSystem.SavePlayer(this);
     }
 
     private void GenerateLevel()
@@ -28,6 +47,7 @@ public class GameManager : MonoBehaviour
         //b = possible breakable or unbreakable
         //B = unbreakable
         //D = breakable
+        //E = enemy
 
         char[,] map = new char[15,10];
         int mapX = 0, mapY = 0;
@@ -45,15 +65,15 @@ public class GameManager : MonoBehaviour
         }
 
         //calculate number of tiles
-        float emptyTiles = Mathf.Floor(147 * (emptyTilesPercentage / 100));
+        //float emptyTiles = Mathf.Floor(147 * (emptyTilesPercentage / 100));
         float unbreakableTiles = Mathf.Floor(147 * (unbreakableTilesPercentage / 100));
         float breakableTiles = Mathf.Floor(147 * (breakableTilesPercentage / 100));
 
-        //generate random position
-        int rndX = Random.Range(1, 13);
-        int rndY = Random.Range(1, 8);
-
+        //generate unbreakables positions
         int unbreakableTilesCounter = 0;
+        //generate random position
+        int rndX = Random.Range(1, 14); //in an int random.range, min is inclusive, and max is exclusive
+        int rndY = Random.Range(1, 9);
 
         while (unbreakableTilesCounter != unbreakableTiles)
         {
@@ -91,37 +111,94 @@ public class GameManager : MonoBehaviour
                     unbreakableTilesCounter++;
                 }
             }
-            rndX = Random.Range(1, 13);
-            rndY = Random.Range(1, 8);
+            rndX = Random.Range(1, 14);
+            rndY = Random.Range(1, 9);
         }
 
+        //generate breakables positions
         int breakableTilesCounter = 0;
-
-        rndX = Random.Range(0, 14);
-        rndY = Random.Range(0, 9);
+        rndX = Random.Range(0, 15);
+        rndY = Random.Range(0, 10);
 
         while (breakableTilesCounter != breakableTiles)
         {
-            //try to place a breakable
-            if (map[rndX, rndY] != 'B' && map[rndX, rndY] != 'p' && map[rndX, rndY] != 'e')
+            if (map[rndX, rndY] != 'D')
             {
-                map[rndX, rndY] = 'D';
-                breakableTilesCounter++;
+                //try to place a breakable
+                if (map[rndX, rndY] != 'B' && map[rndX, rndY] != 'p' && map[rndX, rndY] != 'e')
+                {
+                    map[rndX, rndY] = 'D';
+                    breakableTilesCounter++;
+                }
             }
-            rndX = Random.Range(0, 14);
-            rndY = Random.Range(0, 9);
+            rndX = Random.Range(0, 15);
+            rndY = Random.Range(0, 10);
         }
 
-        //spawn map
+        //generate enemies positions
+        int enemyCounter = 0;
+        rndX = Random.Range(0, 15);
+        rndY = Random.Range(0, 10);
 
-
-        //spawn enemies
-        rndX = Random.Range(0, 14);
-        rndY = Random.Range(0, 9);
-
-        if (map[rndX, rndY] == 'r' || map[rndX, rndY] == 'b') //if it is empty
+        while (enemyCounter != 5)
         {
-            //spawn enemy there
+            if (map[rndX, rndY] != 'E')
+            {
+                //try to place an enemy
+                if (map[rndX, rndY] == 'r' || map[rndX, rndY] == 'b') //if it's on an empty space
+                {
+                    map[rndX, rndY] = 'E';
+                    enemyCounter++;
+                }
+            }
+            rndX = Random.Range(0, 15);
+            rndY = Random.Range(0, 10);
+        }
+
+        //spawn map & enemies
+        GameObject newObject;
+        float posX = 0, posZ = 0;
+
+        enemyCounter = 0;
+
+        for (int i = 0; i < 10; i++)
+        {
+            for (int j = 0; j < 15; j++)
+            {
+                char letter = map[j, i];
+
+                switch (letter)
+                {
+                    case 'B':
+                    {
+                        newObject = Instantiate(wall, new Vector3(posX, 0, posZ), transform.rotation);
+                        newObject.transform.SetParent(Walls.transform, false);
+                        newObject.name = "block[" + i + ", " + j + "]";
+                        break;
+                    }
+                    case 'D':
+                    {
+                        newObject = Instantiate(softBlock, new Vector3(posX, 0, posZ), transform.rotation);
+                        newObject.transform.SetParent(Walls.transform, false);
+                        newObject.name = "block[" + i + ", " + j + "]";
+                        break;
+                    }
+                    case 'E':
+                    {
+                        enemyCounter++;
+                        newObject = Instantiate(enemy, new Vector3(posX, 0, posZ), transform.rotation);
+                        newObject.transform.SetParent(Enemies.transform, false);
+                        newObject.name = "enemy-" + enemyCounter;
+                        break;
+                    }
+                }
+                posX += 1;
+                if (posX >= 15)
+                {
+                    posX = 0;
+                    posZ -= 1;
+                }
+            }
         }
     }
 }
