@@ -90,9 +90,9 @@ public class GameManager : MonoBehaviour
                     map[rndX, rndY] = 'B';
                     unbreakableTilesCounter++;
                 }
-                rndX = Random.Range(1, 13);
-                rndY = Random.Range(1, 8);
             }
+            rndX = Random.Range(1, 13);
+            rndY = Random.Range(1, 8);
         }
 
         int breakableTilesCounter = 0;
