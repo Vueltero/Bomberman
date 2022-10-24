@@ -32,7 +32,13 @@ Sprite BloqueFijo::getBloque()
 
 FloatRect BloqueFijo::getBounds() const
 {
-	return _sprite.getGlobalBounds();
+	FloatRect nuevo;
+	nuevo.height = _sprite.getGlobalBounds().height - 5;
+	nuevo.width = _sprite.getGlobalBounds().width - 5;
+	nuevo.top = _sprite.getGlobalBounds().top;
+	nuevo.left = _sprite.getGlobalBounds().left;
+	return nuevo;
+	//return _sprite.getGlobalBounds();
 }
 
 void BloqueFijo::draw(sf::RenderTarget& target, sf::RenderStates states) const

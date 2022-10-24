@@ -5,8 +5,13 @@
 #include"Bomba.h"
 #include "Fuego.h"
 #include "Mapa.h"
+#include "Enemigo.h"
+#include <list>
+#include <algorithm>
+#include <stdio.h>
+#include <iostream>
 
-
+using namespace std;
 using namespace sf;
 
 class Juego
@@ -21,6 +26,7 @@ private:
 	Sprite _fondo;
 	Texture _txtFondo;
 	Player  _player1;
+	list <Enemigo> _enemigos;
 	BloqueDestruibles* _bloquesito = new BloqueDestruibles(13, 11);
 	int _vidas = 3;
 	Bomba* _bomba;
@@ -28,5 +34,6 @@ private:
 	Fuego* _fuego;
 	int _timer2;
 	Mapa* _mapa1;
+	int randomNumero;
 };
 

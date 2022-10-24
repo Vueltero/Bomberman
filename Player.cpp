@@ -1,4 +1,6 @@
 #include "Player.h"
+#include <iostream>
+using namespace std;
 
 Player::Player()
 {
@@ -10,7 +12,7 @@ Player::Player()
 	//_txt[3].loadFromFile("left1.png");
 	_txt.loadFromFile("down1.png");
 	_sprite.setTexture(_txt);
-	_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height / 2);
+	_sprite.setOrigin((_sprite.getGlobalBounds().width ) / 2, (_sprite.getGlobalBounds().height) / 2);
 }
 
 void Player::cmd(Event evento)
@@ -113,7 +115,7 @@ void Player::cmd(Event evento)
 	//}
 
 	//BORDES
-	float margenAncho = 45 + _sprite.getGlobalBounds().width / 2, margenAlto = 45 + _sprite.getGlobalBounds().height / 2;
+	float margenAncho = 47 + _sprite.getGlobalBounds().width / 2, margenAlto = 47 + _sprite.getGlobalBounds().height / 2;
 	if (_sprite.getPosition().x < margenAncho) {
 		_sprite.setPosition(margenAncho, _sprite.getPosition().y);
 	}
@@ -144,6 +146,7 @@ void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
 
 FloatRect Player::getBounds() const
 {
+	
 	return _sprite.getGlobalBounds();
 }
 

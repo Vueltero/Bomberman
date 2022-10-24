@@ -15,6 +15,7 @@ BloqueDestruibles::BloqueDestruibles(int a, int b)
 
 FloatRect BloqueDestruibles::getBounds() const
 {
+	
 	return _sprite.getGlobalBounds();
 }
 

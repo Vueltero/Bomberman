@@ -11,10 +11,10 @@ public:
 	Player();
 	void cmd(Event event);
 	void choqueBloque();
-	void caminar();
+	//void caminar();
 	void animacionCaminar(int direccion);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
-	FloatRect getBounds() const;
+	FloatRect getBounds() const override;
 	Sprite getSprite();
 	void morir();
 private:
