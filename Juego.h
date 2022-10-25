@@ -25,7 +25,8 @@ private:
 	RenderWindow* _ventana1;
 	Sprite _fondo;
 	Texture _txtFondo;
-	Player  _player1;
+	//Player  _player1;
+	list <Player> _players;
 	list <Enemigo> _enemigos;
 	BloqueDestruibles* _bloquesito = new BloqueDestruibles(13, 11);
 	int _vidas = 3;
@@ -35,5 +36,6 @@ private:
 	int _timer2;
 	Mapa* _mapa1;
 	int randomNumero;
+	int _contadorCrear;
 };
 

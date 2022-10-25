@@ -16,7 +16,12 @@ public:
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	FloatRect getBounds() const override;
 	Sprite getSprite();
-	void morir();
+	void morir(int&);
+
+	bool getMuriendo() { return _muriendo; }
+	bool getMuerto() { return _muerto; }
+	void setMuriendo(bool muere) { _muriendo = muere; }
+
 private:
 	Vector2f _velocidad;
 	Texture _txt;
@@ -24,5 +29,6 @@ private:
 	int __timerCamina;
 	int _path = 1;
 	int __timerMuerte=60*2;
-
+	bool _muriendo;
+	bool _muerto;
 };

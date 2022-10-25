@@ -13,6 +13,8 @@ Player::Player()
 	_txt.loadFromFile("down1.png");
 	_sprite.setTexture(_txt);
 	_sprite.setOrigin((_sprite.getGlobalBounds().width ) / 2, (_sprite.getGlobalBounds().height) / 2);
+	_muriendo = false;
+	_muerto = false;
 }
 
 void Player::cmd(Event evento)
@@ -192,53 +194,53 @@ void Player::animacionCaminar(int direccion) {
 	}
 	__timerCamina--;
 }
-void Player::morir() {
+void Player::morir(int &contadorMuerto) {
 	if (__timerMuerte > 100) {
-		_sprite.move(-_velocidad);
+		//_sprite.move(-_velocidad);
 		_txt.loadFromFile("death1.png");
 		_sprite.setTexture(_txt);
 
 		__timerMuerte--;
 	}
 	else if (__timerMuerte > 80) {
-		_sprite.move(-_velocidad);
+		//_sprite.move(-_velocidad);
 		_txt.loadFromFile("death2.png");
 		_sprite.setTexture(_txt);
 
 		__timerMuerte--;
 	}
 	else if (__timerMuerte > 60) {
-		_sprite.move(-_velocidad);
+		//_sprite.move(-_velocidad);
 		_txt.loadFromFile("death3.png");
 		_sprite.setTexture(_txt);
 
 		__timerMuerte--;
 	}
 	else if (__timerMuerte > 40) {
-		_sprite.move(-_velocidad);
+		//_sprite.move(-_velocidad);
 		_txt.loadFromFile("death4.png");
 		_sprite.setTexture(_txt);
 
 		__timerMuerte--;
 	}
 	else if (__timerMuerte > 20) {
-		_sprite.move(-_velocidad);
+		//_sprite.move(-_velocidad);
 		_txt.loadFromFile("death5.png");
 		_sprite.setTexture(_txt);
 
 		__timerMuerte--;
 	}
 	else if (__timerMuerte > 0) {
-		_sprite.move(-_velocidad);
+		//_sprite.move(-_velocidad);
 		_txt.loadFromFile("death6.png");
 		_sprite.setTexture(_txt);
 
 		__timerMuerte--;
 	}
 	else {
-		_sprite.setPosition(65, 65);
-		_txt.loadFromFile("down1.png");
+		_txt.loadFromFile("vacio.png");
 		_sprite.setTexture(_txt);
-		__timerMuerte = 120;
+		_muerto = true;
+		contadorMuerto++;
 	}
 }

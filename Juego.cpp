@@ -20,6 +20,9 @@ Juego::Juego()
 	_enemigos.push_back(*_enemigo3);
 	_vidas = 3;
 
+	Player* _player1 = new Player;
+	_players.push_back(*_player1);
+
 	_bomba = new Bomba;
 	_timer = 0;
 
@@ -27,6 +30,7 @@ Juego::Juego()
 	_timer2 = 0;
 	_mapa1 = new Mapa;
 	randomNumero = 4;
+	_contadorCrear = 0;
 
 	gamePlay();
 
@@ -42,36 +46,62 @@ void Juego::gamePlay()
 			}
 		}
 		//CMD
-		_player1.cmd(event);
-
+		list<Player>::iterator play;
+		for (play = _players.begin(); play != _players.end(); ++play) {
+			if (!play->getMuriendo()) {
+				play->cmd(event);
+			}
+			else {
+				if (!play->getMuerto())
+					play->morir(_contadorCrear);
+			}
+		}
+		//fin de las 3 vidas y partida, luego cambiar
+		if (_contadorCrear == 5) {
+			_ventana1->close();
+		}
+		//crea nuevo pj, nueva vida en esquina
+		if (_contadorCrear % 2 != 0) {
+			Player* _player = new Player;
+			_players.push_back(*_player);
+			_contadorCrear++;
+		}
+		//CMD del enemigo, si esta vivo o muriendo.
 		list<Enemigo>::iterator it;
-		for (it = _enemigos.begin(); it != _enemigos.end();++it) {
-			if(it->getEstado())
+		for (it = _enemigos.begin(); it != _enemigos.end(); ++it) {
+			if (it->getEstado())
 				it->cmd();
 			else {
 				it->morir();
 			}
 		}
-
-		if (_mapa1->comprobarColisionAmbos(_player1)) {
-			_player1.choqueBloque();
+		//Colisiones con bloques de PJ
+		for (play = _players.begin(); play != _players.end(); ++play) {
+			if (_mapa1->comprobarColisionAmbos(*play)) {
+				play->choqueBloque();
+			}
 		}
+		//Colsiones con bloques del Enemigo
 		for (it = _enemigos.begin(); it != _enemigos.end(); ++it) {
 			if (_mapa1->comprobarColisionAmbos(*it) && it->getMuerte() == false) {
 				it->choqueBloque();
 			}
 		}
-
+		// Destruccion de bloques flojos
 		_mapa1->comprobarColisionDestruir(*_fuego);
 
-		if (Keyboard::isKeyPressed(Keyboard::Space) && _timer == 0) {
-			_timer = 60 * 5;
-			_bomba->setSpritePosition(_player1.getSprite().getPosition());
+		//poner bomba, solo si no esta muriendo y naturalmente no muerto
+		for (play = _players.begin(); play != _players.end(); ++play) {
+			if (Keyboard::isKeyPressed(Keyboard::Space) && _timer == 0 && play->getMuriendo() == false) {
+				_timer = 60 * 5;
+				_bomba->setSpritePosition(play->getSprite().getPosition());
+			}
 		}
+		//timer de bomba
 		if (_timer > 0) {
 			_timer--;
 		}
-		//_fuego al estallar _bomba (no funciona)
+		//_fuego al estallar _bomba
 		if (_timer == 1) {
 			_timer2 = 60 * 2;
 			_fuego->setSpritePosition(_bomba->getSprite().getPosition());
@@ -83,18 +113,27 @@ void Juego::gamePlay()
 		if (_timer2 > 0) {
 			_timer2--;
 		}
-		//colision y muerte del pj
-		if (_fuego->isColision(_player1)) {
-			_player1.morir();
+		//colision y muerte del pj, primero por fuego, luego por chocar enemigos
+		for (play = _players.begin(); play != _players.end(); ++play) {
+			if (_fuego->isColision(*play)) {
+				play->setMuriendo(true);
+			}
 		}
-		//colision y muerte de los enemigos
+		for (play = _players.begin(); play != _players.end(); ++play) {
+			for (it = _enemigos.begin(); it != _enemigos.end(); ++it) {
+				if (it->isColision(*play)) {
+					play->setMuriendo(true);
+				}
+			}
+		}
+		//colision y muerte de los enemigos con el fuego.
 		list<Enemigo>::iterator it2;
 		for (it2 = _enemigos.begin(); it2 != _enemigos.end(); ++it2) {
-			if (_fuego->isColision(*it2) && it2->getMuerte()==false) {
+			if (_fuego->isColision(*it2) && it2->getMuerte() == false) {
 				it2->setEstado(false);
 			}
 		}
-		
+
 		dibujar();
 	}
 }
@@ -112,7 +151,11 @@ void Juego::dibujar()
 	if (_timer > 0) {
 		_ventana1->draw(*_bomba);
 	}
-	_ventana1->draw(_player1);
+
+	list<Player>::iterator play;
+	for (play = _players.begin(); play != _players.end(); ++play) {
+		_ventana1->draw(*play);
+	}
 	list<Enemigo>::iterator it;
 	for (it = _enemigos.begin(); it != _enemigos.end(); ++it) {
 		_ventana1->draw(*it);
