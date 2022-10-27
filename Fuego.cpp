@@ -36,29 +36,29 @@ void Fuego::crearLlama()
 		_sonFuego.play();
 	}
 	if (_timer > 90) {
-		//_txt->loadFromFile("fuego1.png");
-		//_sprite.setTexture(*_txt);
+		_txt.loadFromFile("fuegos1.png");
+		_sprite.setTexture(_txt);
 		_timer--;
 	}
 	else if (_timer > 60) {
-		//_txt->loadFromFile("fuego2.png");
-		//_sprite.setTexture(*_txt);
+		_txt.loadFromFile("fuegos2.png");
+		_sprite.setTexture(_txt);
 		_timer--;
 	}
 	else if (_timer > 30) {
-		//_txt->loadFromFile("fuego3.png");
-		//_sprite.setTexture(*_txt);
+		_txt.loadFromFile("fuegos3.png");
+		_sprite.setTexture(_txt);
 		_timer--;
 	}
 	else if (_timer > 0) {
-		//_txt->loadFromFile("fuego4.png");
-		//_sprite.setTexture(*_txt);
+		_txt.loadFromFile("fuegos4.png");
+		_sprite.setTexture(_txt);
 		_timer--;
 	}
 	else if (_timer == 0) {
 		_estado = false;
-		//_txt->loadFromFile("vacio.png");
-		//_sprite.setTexture(*_txt);
+		_txt.loadFromFile("vacio.png");
+		_sprite.setTexture(_txt);
 		_timer = 60 * 2;
 	}
 }
