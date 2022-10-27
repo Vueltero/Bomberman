@@ -67,8 +67,8 @@ void Enemigo::cmd()
 	if (_sprite.getPosition().y < margenAlto) {
 		_sprite.setPosition(_sprite.getPosition().x, margenAlto);
 	}
-	if (_sprite.getPosition().y > 600 - margenAlto) {
-		_sprite.setPosition(_sprite.getPosition().x, 600 - margenAlto);
+	if (_sprite.getPosition().y > 600 - margenAlto-10) {
+		_sprite.setPosition(_sprite.getPosition().x, 600 - margenAlto-10);
 	}
 }
 

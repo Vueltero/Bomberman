@@ -102,7 +102,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>.\SFML\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -133,6 +133,8 @@
     <ClCompile Include="BloqueFijo.cpp" />
     <ClCompile Include="BloquesDestruibles.cpp" />
     <ClCompile Include="Bomba.cpp" />
+    <ClCompile Include="BoostBomba.cpp" />
+    <ClCompile Include="BoostVelocidad.cpp" />
     <ClCompile Include="Colisionable.cpp" />
     <ClCompile Include="Enemigo.cpp" />
     <ClCompile Include="Fuego.cpp" />
@@ -140,17 +142,22 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mapa.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PuertaVictoria.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BloqueFijo.h" />
     <ClInclude Include="BloquesDestruibles.h" />
     <ClInclude Include="Bomba.h" />
+    <ClInclude Include="BoostBomba.h" />
+    <ClInclude Include="BoostVelocidad.h" />
     <ClInclude Include="Colisionable.h" />
     <ClInclude Include="Enemigo.h" />
+    <ClInclude Include="Estadistica.h" />
     <ClInclude Include="Fuego.h" />
     <ClInclude Include="Juego.h" />
     <ClInclude Include="Mapa.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PuertaVictoria.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

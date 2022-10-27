@@ -12,7 +12,7 @@ using namespace sf;
 
 
 int main() {
-	srand(time(NULL));                      
+	srand(time(NULL));
 	Juego _juego1;
 	return 0;
 }

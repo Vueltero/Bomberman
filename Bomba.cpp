@@ -5,6 +5,7 @@ Bomba::Bomba()
 	_txt.loadFromFile("bomb.png");
 	_sprite.setTexture(_txt);
 	_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height / 2);
+	_timer = 60 * 5;
 }
 
 Sprite Bomba::getSprite()
@@ -16,6 +17,19 @@ Sprite Bomba::getSprite()
 {
 	return _estado;
 }*/
+
+void Bomba::crearExplotar(bool &actLlama)
+{
+	_estado = true;
+	_timer--;
+	actLlama = false;
+
+	if (_timer == 0) {
+			_estado = false;
+			actLlama = true;
+			_timer = 60 * 5;
+	}
+}
 
 void Bomba::crearBomba(Vector2f posicion)
 {

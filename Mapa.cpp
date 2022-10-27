@@ -46,11 +46,42 @@ void Mapa::generarMapa() {
 			}
 		}
 	}
+	random_device rd;
+	mt19937 gen(rd());
+	uniform_int_distribution<> dis(0, posD);
+	_bv1.setPosicionSprite(_bd[dis(gen)]->getSpritePosition());
+	mt19937 gen2(rd());
+	uniform_int_distribution<> dis2(0, posD);
+	_bv2.setPosicionSprite(_bd[dis2(gen2)]->getSpritePosition());
+
+	mt19937 gen3(rd());
+	uniform_int_distribution<> dis3(0, posD);
+	_bb1.setPosicionSprite(_bd[dis3(gen3)]->getSpritePosition());
+
+	mt19937 gen4(rd());
+	uniform_int_distribution<> dis4(0, posD);
+	_bb2.setPosicionSprite(_bd[dis4(gen4)]->getSpritePosition());
+
+	mt19937 gen5(rd());
+	uniform_int_distribution<> dis5(0, posD);
+	_puertaVictoria.setPosicionSprite(_bd[dis5(gen5)]->getSpritePosition());
+}
+void Mapa::dibujarVelocidad(RenderWindow* v) {
+		if (_bv1.getEstado())
+			v->draw(_bv1);
+		if (_bv2.getEstado())
+			v->draw(_bv2);
+}
+void Mapa::dibujarBoostBomba(RenderWindow* v) {
+	if (_bb1.getEstado())
+		v->draw(_bb1);
+	if (_bb2.getEstado())
+		v->draw(_bb2);
 }
 
 void Mapa::dibujarFijos(RenderWindow* v)
 {
-	for (int i = 0; i < 76; i++) {
+	for (int i = 0; i < 82; i++) {
 		v->draw(*_bf[i]);
 	}
 }
@@ -85,4 +116,44 @@ void Mapa::comprobarColisionDestruir(Colisionable& c) {
 			}
 		}
 	}
+}
+
+bool Mapa::comprobarColisionVelocidad(Colisionable& c) {
+	if (c.isColision(_bv1)) {
+		if (_bv1.getEstado()) {
+			_bv1.setEstado(false);
+			return true;
+		}
+	}
+	if (c.isColision(_bv2)) {
+		if (_bv2.getEstado()) {
+			_bv2.setEstado(false);
+			return true;
+		}
+	}
+}
+bool Mapa::comprobarColisionBoostBomba(Colisionable& c) {
+	if (c.isColision(_bb1)) {
+		if (_bb1.getEstado()) {
+			_bb1.setEstado(false);
+			return true;
+		}
+	}
+	if (c.isColision(_bb2)) {
+		if (_bb2.getEstado()) {
+			_bb2.setEstado(false);
+			return true;
+		}
+	}
+}
+void Mapa::dibujarPuertaVictoria(RenderWindow* v) {
+	v->draw(_puertaVictoria);
+}
+bool Mapa::comprobarColisionPuerta(Colisionable& c) {
+	if (_puertaVictoria.getEstado()) {
+		if (c.isColision(_puertaVictoria)) {
+			return true;
+		}
+	}
+	return false;
 }

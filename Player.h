@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include "Colisionable.h"
 #include <string.h>
 using namespace std;
@@ -9,7 +10,7 @@ class Player : public Colisionable, public Drawable
 {
 public:
 	Player();
-	void cmd(Event event);
+	void cmd(Event event,bool acelerar);
 	void choqueBloque();
 	//void caminar();
 	void animacionCaminar(int direccion);
@@ -31,4 +32,9 @@ private:
 	int __timerMuerte=60*2;
 	bool _muriendo;
 	bool _muerto;
+	SoundBuffer _bufCamina;
+	Sound _caminar;
+
+	SoundBuffer _bufPer;
+	Sound _sonPerderVida;
 };

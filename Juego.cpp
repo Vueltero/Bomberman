@@ -23,14 +23,31 @@ Juego::Juego()
 	Player* _player1 = new Player;
 	_players.push_back(*_player1);
 
-	_bomba = new Bomba;
+	_bufBomba.loadFromFile("ponerBomba.wav");
+	_sonBomba.setBuffer(_bufBomba);
+
+	_bufItem.loadFromFile("item.wav");
+	_sonItem.setBuffer(_bufItem);
+
 	_timer = 0;
 
-	_fuego = new Fuego;
 	_timer2 = 0;
 	_mapa1 = new Mapa;
 	randomNumero = 4;
 	_contadorCrear = 0;
+
+	_dosBombas = false;
+	_timerBoostBomba = 0;
+	_tiempoBombas = 0;
+
+
+	_acelerar = false;
+	_timerVelocidad = 0;
+
+	_contadorEnemigosEliminados = 0;
+
+	_puntaje = 0;
+	_tiempoLimite = 5 * 60 * 60;
 
 	gamePlay();
 
@@ -45,11 +62,15 @@ void Juego::gamePlay()
 				_ventana1->close();
 			}
 		}
+		if (_victoria == true) {
+			_ventana1->close();
+		}
+		_tiempoLimite--;
 		//CMD
 		list<Player>::iterator play;
 		for (play = _players.begin(); play != _players.end(); ++play) {
 			if (!play->getMuriendo()) {
-				play->cmd(event);
+				play->cmd(event, _acelerar);
 			}
 			else {
 				if (!play->getMuerto())
@@ -66,6 +87,32 @@ void Juego::gamePlay()
 			_players.push_back(*_player);
 			_contadorCrear++;
 		}
+		//Colision con boosterVelocidad (20 seg)
+		for (play = _players.begin(); play != _players.end(); ++play) {
+			if (_mapa1->comprobarColisionVelocidad(*play)) {
+				_timerVelocidad = 20 * 60;
+				_acelerar = true;
+				_sonItem.play();
+			}
+		}
+		_timerVelocidad--;
+		//Colision con boosterBOmba (20 seg)
+		if (_timerVelocidad <= 0) {
+			_acelerar = false;
+		}
+		for (play = _players.begin(); play != _players.end(); ++play) {
+			if (_mapa1->comprobarColisionBoostBomba(*play)) {
+				_timerBoostBomba = 20 * 60;
+				_dosBombas = true;
+				_sonItem.play();
+			}
+		}
+		_timerBoostBomba--;
+		if (_timerBoostBomba <= 0) {
+			_dosBombas = false;
+		}
+
+
 		//CMD del enemigo, si esta vivo o muriendo.
 		list<Enemigo>::iterator it;
 		for (it = _enemigos.begin(); it != _enemigos.end(); ++it) {
@@ -88,52 +135,99 @@ void Juego::gamePlay()
 			}
 		}
 		// Destruccion de bloques flojos
-		_mapa1->comprobarColisionDestruir(*_fuego);
+		for (int i = 0; i < 2; i++) {
+			if (_fuegos[i].getEstado()) {
+				_mapa1->comprobarColisionDestruir(_fuegos[i]);
+			}
+		}
 
 		//poner bomba, solo si no esta muriendo y naturalmente no muerto
 		for (play = _players.begin(); play != _players.end(); ++play) {
-			if (Keyboard::isKeyPressed(Keyboard::Space) && _timer == 0 && play->getMuriendo() == false) {
-				_timer = 60 * 5;
-				_bomba->setSpritePosition(play->getSprite().getPosition());
+			if (!_dosBombas) {
+				if (Keyboard::isKeyPressed(Keyboard::Space) && _bombas[0].getEstado() == false && play->getMuriendo() == false) {
+					_sonBomba.play();
+					bool estado;
+					_bombas[0].crearExplotar(estado);
+					_bombas[0].setSpritePosition(play->getSprite().getPosition());
+				}
+			}
+			else {
+				for (int i = 0; i < 2; i++) {
+					if (Keyboard::isKeyPressed(Keyboard::Space) && play->getMuriendo() == false) {
+						if (_bombas[i].getEstado() == false && _tiempoBombas < 0) {
+							_sonBomba.play();
+							bool estado = false;
+							_bombas[i].crearExplotar(estado);
+							_bombas[i].setSpritePosition(play->getSprite().getPosition());
+
+							_tiempoBombas = 60;
+						}
+					}
+				}
+				//tiempo entre 2 bombas
+				_tiempoBombas--;
 			}
 		}
-		//timer de bomba
-		if (_timer > 0) {
-			_timer--;
+		for (int i = 0; i < 2; i++) {
+			if (_bombas[i].getEstado() == true) {
+				bool estado = false;
+				_bombas[i].crearExplotar(estado);
+				_fuegos[i].setEstado(estado);
+				_fuegos[i].setSpritePosition(_bombas[i].getSprite().getPosition());
+			}
 		}
-		//_fuego al estallar _bomba
-		if (_timer == 1) {
-			_timer2 = 60 * 2;
-			_fuego->setSpritePosition(_bomba->getSprite().getPosition());
+		for (int i = 0; i < 2; i++) {
+			if (_fuegos[i].getEstado()) {
+				_fuegos[i].crearLlama();
+			}
+		}
 
-		}
-		if (_timer2 == 0) {
-			_fuego->setSpritePosition({ 800, 600 });
-		}
-		if (_timer2 > 0) {
-			_timer2--;
-		}
 		//colision y muerte del pj, primero por fuego, luego por chocar enemigos
 		for (play = _players.begin(); play != _players.end(); ++play) {
-			if (_fuego->isColision(*play)) {
-				play->setMuriendo(true);
+			for (int i = 0; i < 2; i++) {
+				if (_fuegos[i].isColision(*play) && _fuegos[i].getEstado()) {
+					play->setMuriendo(true);
+					
+				}
 			}
 		}
 		for (play = _players.begin(); play != _players.end(); ++play) {
 			for (it = _enemigos.begin(); it != _enemigos.end(); ++it) {
-				if (it->isColision(*play)) {
+				if (it->isColision(*play) && it->getEstado()) {
 					play->setMuriendo(true);
+			
 				}
 			}
 		}
 		//colision y muerte de los enemigos con el fuego.
 		list<Enemigo>::iterator it2;
 		for (it2 = _enemigos.begin(); it2 != _enemigos.end(); ++it2) {
-			if (_fuego->isColision(*it2) && it2->getMuerte() == false) {
-				it2->setEstado(false);
+			for (int i = 0; i < 2; i++) {
+				if (_fuegos[i].isColision(*it2) && _fuegos[i].getEstado() && it2->getMuerte() == false) {
+					it2->setEstado(false);
+				}
 			}
 		}
-
+		//Puerta de la victoria
+		_contadorEnemigosEliminados = 0;
+		for (it2 = _enemigos.begin(); it2 != _enemigos.end(); ++it2) {
+			if (it2->getMuerte()) {
+				_contadorEnemigosEliminados++;
+			}
+		}
+		if (_contadorEnemigosEliminados > 2) {
+			_mapa1->setEstadoPV(true);
+		}
+		if (_mapa1->getEstadoPV()) {
+			_mapa1->abrirPuerta();
+		}
+		for (play = _players.begin(); play != _players.end(); ++play) {
+			if (_mapa1->comprobarColisionPuerta(*play)) {
+				//ganar
+				//victoria();
+				_victoria = true;
+			}
+		}
 		dibujar();
 	}
 }
@@ -142,14 +236,27 @@ void Juego::dibujar()
 {
 	_ventana1->clear();
 	_ventana1->draw(_fondo);
+
+	_mapa1->dibujarVelocidad(_ventana1);
+	_mapa1->dibujarBoostBomba(_ventana1);
+
+	_mapa1->dibujarPuertaVictoria(_ventana1);
+
+
 	_mapa1->dibujarDestruibles(_ventana1);
-	if (_timer2 > 0) {
-		_ventana1->draw(*_fuego);
+
+	for (int i = 0; i < 2; i++) {
+		if (_fuegos[i].getEstado()) {
+			_ventana1->draw(_fuegos[i]);
+		}
 	}
+
 	_mapa1->dibujarFijos(_ventana1);
 
-	if (_timer > 0) {
-		_ventana1->draw(*_bomba);
+	for (int i = 0; i < 2; i++) {
+		if (_bombas[i].getEstado() == true) {
+			_ventana1->draw(_bombas[i]);
+		}
 	}
 
 	list<Player>::iterator play;
@@ -162,3 +269,4 @@ void Juego::dibujar()
 	}
 	_ventana1->display();
 }
+
