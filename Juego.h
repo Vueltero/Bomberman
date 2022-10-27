@@ -33,6 +33,12 @@ private:
 	RenderWindow* _ventana1;
 	Sprite _fondo;
 	Texture _txtFondo;
+	Sprite _fondoGameOver;
+	Texture _txtFondoGameOver;
+
+	Text textoPuntaje;
+	Font fuenteTextoPuntaje;
+
 	//Player  _player1;
 	list <Player> _players;
 	list <Enemigo> _enemigos;
@@ -43,6 +49,7 @@ private:
 	bool _dosBombas;
 	int _timer;
 	Fuego* _fuegos = new Fuego[2];
+	Fuego* _fuegosV = new Fuego[2];
 	int _timer2;
 	Mapa* _mapa1;
 	int randomNumero;
@@ -56,6 +63,8 @@ private:
 	int _tiempoLimite;
 	char _nombre[4];
 	bool _victoria = false;
+
+	bool _gameOver = false;
 	SoundBuffer _bufBomba;
 	Sound _sonBomba;
 

@@ -6,7 +6,7 @@ using namespace sf;
 class Fuego : public Drawable, public Colisionable
 {
 private:
-	Texture _txt[3];
+	Texture _txt;
 	Sprite _sprite;
 	bool _estado;
 	int _timer;
@@ -17,8 +17,8 @@ public:
 	void setSpritePosition(Vector2f posicion);
 	void draw(RenderTarget& target, RenderStates states) const override;
 	FloatRect getBounds() const override;
-	void setTexturaNueva(int nTextura);
 	void crearLlama();
+	void rotarVertical();
 
 	void setEstado(bool estado) { _estado = estado; }
 	bool getEstado() { return _estado; }

@@ -10,6 +10,11 @@ Juego::Juego()
 	_fondo.setTexture(_txtFondo);
 	//_fondo.setOrigin(_fondo.getGlobalBounds().width / 2, _fondo.getGlobalBounds().height / 2);
 	_fondo.setPosition(0, 0);
+	_txtFondoGameOver.loadFromFile("gameOver.jpg");
+	_fondoGameOver.setTexture(_txtFondoGameOver);
+
+	_fuegosV[0].rotarVertical();
+	_fuegosV[1].rotarVertical();
 
 	Enemigo* _enemigo1 = new Enemigo;
 	Enemigo* _enemigo2 = new Enemigo;
@@ -18,6 +23,7 @@ Juego::Juego()
 	_enemigos.push_back(*_enemigo1);
 	_enemigos.push_back(*_enemigo2);
 	_enemigos.push_back(*_enemigo3);
+
 	_vidas = 3;
 
 	Player* _player1 = new Player;
@@ -34,7 +40,7 @@ Juego::Juego()
 	_timer2 = 0;
 	_mapa1 = new Mapa;
 	randomNumero = 4;
-	_contadorCrear = 0;
+	_contadorCrear = 0;			//contar muerte de pj
 
 	_dosBombas = false;
 	_timerBoostBomba = 0;
@@ -62,11 +68,12 @@ void Juego::gamePlay()
 				_ventana1->close();
 			}
 		}
-		if (_victoria == true) {
+		/*if (_victoria == true) {
 			_ventana1->close();
-		}
+		}*/
 		_tiempoLimite--;
 		//CMD
+
 		list<Player>::iterator play;
 		for (play = _players.begin(); play != _players.end(); ++play) {
 			if (!play->getMuriendo()) {
@@ -79,7 +86,8 @@ void Juego::gamePlay()
 		}
 		//fin de las 3 vidas y partida, luego cambiar
 		if (_contadorCrear == 5) {
-			_ventana1->close();
+			//va pantalla de game over
+			_gameOver = true;
 		}
 		//crea nuevo pj, nueva vida en esquina
 		if (_contadorCrear % 2 != 0) {
@@ -96,10 +104,10 @@ void Juego::gamePlay()
 			}
 		}
 		_timerVelocidad--;
-		//Colision con boosterBOmba (20 seg)
 		if (_timerVelocidad <= 0) {
 			_acelerar = false;
 		}
+		//Colision con boosterBOmba (20 seg)
 		for (play = _players.begin(); play != _players.end(); ++play) {
 			if (_mapa1->comprobarColisionBoostBomba(*play)) {
 				_timerBoostBomba = 20 * 60;
@@ -139,6 +147,9 @@ void Juego::gamePlay()
 			if (_fuegos[i].getEstado()) {
 				_mapa1->comprobarColisionDestruir(_fuegos[i]);
 			}
+			if (_fuegosV[i].getEstado()) {
+				_mapa1->comprobarColisionDestruir(_fuegosV[i]);
+			}
 		}
 
 		//poner bomba, solo si no esta muriendo y naturalmente no muerto
@@ -174,20 +185,22 @@ void Juego::gamePlay()
 				_bombas[i].crearExplotar(estado);
 				_fuegos[i].setEstado(estado);
 				_fuegos[i].setSpritePosition(_bombas[i].getSprite().getPosition());
+				_fuegosV[i].setEstado(estado);
+				_fuegosV[i].setSpritePosition(_bombas[i].getSprite().getPosition());
 			}
 		}
 		for (int i = 0; i < 2; i++) {
-			if (_fuegos[i].getEstado()) {
+			if (_fuegos[i].getEstado() && _fuegosV[i].getEstado()) {
 				_fuegos[i].crearLlama();
+				_fuegosV[i].crearLlama();
 			}
 		}
 
 		//colision y muerte del pj, primero por fuego, luego por chocar enemigos
 		for (play = _players.begin(); play != _players.end(); ++play) {
 			for (int i = 0; i < 2; i++) {
-				if (_fuegos[i].isColision(*play) && _fuegos[i].getEstado()) {
-					play->setMuriendo(true);
-					
+				if ((_fuegos[i].isColision(*play) && _fuegos[i].getEstado()) || (_fuegosV[i].isColision(*play) && _fuegosV[i].getEstado())) {
+					play->setMuriendo(true);	
 				}
 			}
 		}
@@ -203,7 +216,7 @@ void Juego::gamePlay()
 		list<Enemigo>::iterator it2;
 		for (it2 = _enemigos.begin(); it2 != _enemigos.end(); ++it2) {
 			for (int i = 0; i < 2; i++) {
-				if (_fuegos[i].isColision(*it2) && _fuegos[i].getEstado() && it2->getMuerte() == false) {
+				if ((_fuegos[i].isColision(*it2) && _fuegos[i].getEstado() && it2->getMuerte() == false) || (_fuegosV[i].isColision(*it2) && _fuegosV[i].getEstado() && it2->getMuerte() == false)) {
 					it2->setEstado(false);
 				}
 			}
@@ -226,6 +239,7 @@ void Juego::gamePlay()
 				//ganar
 				//victoria();
 				_victoria = true;
+				_gameOver = true;
 			}
 		}
 		dibujar();
@@ -249,6 +263,9 @@ void Juego::dibujar()
 		if (_fuegos[i].getEstado()) {
 			_ventana1->draw(_fuegos[i]);
 		}
+		if (_fuegosV[i].getEstado()) {
+			_ventana1->draw(_fuegosV[i]);
+		}
 	}
 
 	_mapa1->dibujarFijos(_ventana1);
@@ -266,6 +283,9 @@ void Juego::dibujar()
 	list<Enemigo>::iterator it;
 	for (it = _enemigos.begin(); it != _enemigos.end(); ++it) {
 		_ventana1->draw(*it);
+	}
+	if (_gameOver) {
+		_ventana1->draw(_fondoGameOver);
 	}
 	_ventana1->display();
 }
