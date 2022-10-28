@@ -19,6 +19,9 @@ public:
 	Sprite getSprite();
 	void morir(int&);
 
+	bool getTocandoBomba() { return _tocandoBomba; }
+	void setTocandoBomba(bool tocando) { _tocandoBomba = tocando; }
+
 	bool getMuriendo() { return _muriendo; }
 	bool getMuerto() { return _muerto; }
 	void setMuriendo(bool muere) { _muriendo = muere; }
@@ -37,4 +40,5 @@ private:
 
 	SoundBuffer _bufPer;
 	Sound _sonPerderVida;
+	bool _tocandoBomba = false;
 };

@@ -90,6 +90,7 @@ void Juego::gamePlay()
 			_gameOver = true;
 		}
 		//crea nuevo pj, nueva vida en esquina
+		//Los numeros pares de _contadorCrear son cuando el pj esta vivo y los impares cuando está muerto
 		if (_contadorCrear % 2 != 0) {
 			Player* _player = new Player;
 			_players.push_back(*_player);
@@ -151,6 +152,7 @@ void Juego::gamePlay()
 				_mapa1->comprobarColisionDestruir(_fuegosV[i]);
 			}
 		}
+		
 
 		//poner bomba, solo si no esta muriendo y naturalmente no muerto
 		for (play = _players.begin(); play != _players.end(); ++play) {
@@ -160,6 +162,7 @@ void Juego::gamePlay()
 					bool estado;
 					_bombas[0].crearExplotar(estado);
 					_bombas[0].setSpritePosition(play->getSprite().getPosition());
+					play->setTocandoBomba(true);
 				}
 			}
 			else {
@@ -170,7 +173,7 @@ void Juego::gamePlay()
 							bool estado = false;
 							_bombas[i].crearExplotar(estado);
 							_bombas[i].setSpritePosition(play->getSprite().getPosition());
-
+							play->setTocandoBomba(true);
 							_tiempoBombas = 60;
 						}
 					}
@@ -179,6 +182,30 @@ void Juego::gamePlay()
 				_tiempoBombas--;
 			}
 		}
+		//contacto con bomba de pj
+		for (play = _players.begin(); play != _players.end(); ++play) {
+			for (int i = 0; i < 2; i++) {
+				if (play->getTocandoBomba() && !(play->isColision(_bombas[i])) && _bombas[i].getEstado()) {
+					play->setTocandoBomba(false);
+				}
+			}			
+		}
+		for (play = _players.begin(); play != _players.end(); ++play) {
+			for (int i = 0; i < 2; i++) {
+				if (!(play->getTocandoBomba()) && play->isColision(_bombas[i]) && _bombas[i].getEstado()) {
+					play->choqueBloque();
+				}
+			}
+		}
+		//contacto con bomba de enemigo
+		for (it = _enemigos.begin(); it != _enemigos.end(); ++it) {
+			for (int i = 0; i < 2; i++) {
+				if (it->isColision(_bombas[i]) && _bombas[i].getEstado()) {
+					it->choqueBloque();
+				}
+			}
+		}
+
 		for (int i = 0; i < 2; i++) {
 			if (_bombas[i].getEstado() == true) {
 				bool estado = false;

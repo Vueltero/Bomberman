@@ -21,6 +21,9 @@ public:
 	void setEstado(bool a) { _estado = a; }
 	bool getEstado() { return _estado; }
 	bool getMuerte() { return _muerte; }
+
+	//bool getTocandoBomba() { return _tocandoBomba; }
+	//void setTocandoBomba(bool tocando) { _tocandoBomba = tocando; }
 private:
 	Vector2f _velocidad;
 	Texture _txt;
@@ -32,5 +35,6 @@ private:
 	int _tiempoMov = 60;
 	bool _estado;
 	bool _muerte;
+	/*bool _tocandoBomba = false;*/
 };
 

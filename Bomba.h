@@ -2,7 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include "colisionable.h"
 using namespace sf;
-class Bomba : public Drawable
+class Bomba : public Drawable , public Colisionable
 {
 public:
 	Bomba();
@@ -11,7 +11,7 @@ public:
 	void crearExplotar(bool &actLLama);
 	void crearBomba(Vector2f posicion);
 	void setSpritePosition(Vector2f posicion);
-	///FloatRect getBounds() const override;
+	FloatRect getBounds() const override;
 	void draw(RenderTarget& target, RenderStates states) const override;
 
 	bool getEstado() { return _estado; }

@@ -42,6 +42,11 @@ void Bomba::setSpritePosition(Vector2f posicion)
 	_sprite.setPosition(posicion);
 }
 
+FloatRect Bomba::getBounds() const
+{
+	return _sprite.getGlobalBounds();
+}
+
 void Bomba::draw(RenderTarget& target, RenderStates states) const
 {
 	target.draw(_sprite, states);
