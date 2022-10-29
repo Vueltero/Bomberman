@@ -138,9 +138,11 @@
     <ClCompile Include="Colisionable.cpp" />
     <ClCompile Include="Enemigo.cpp" />
     <ClCompile Include="Fuego.cpp" />
+    <ClCompile Include="Inamovibles.cpp" />
     <ClCompile Include="Juego.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mapa.cpp" />
+    <ClCompile Include="Movibles.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PuertaVictoria.cpp" />
   </ItemGroup>
@@ -154,15 +156,15 @@
     <ClInclude Include="Enemigo.h" />
     <ClInclude Include="Estadistica.h" />
     <ClInclude Include="Fuego.h" />
+    <ClInclude Include="Inamovibles.h" />
     <ClInclude Include="Juego.h" />
     <ClInclude Include="Mapa.h" />
+    <ClInclude Include="Movibles.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PuertaVictoria.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
-    <None Include="ClassDiagram1.cd" />
-    <None Include="ClassDiagram2.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

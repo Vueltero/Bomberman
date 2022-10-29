@@ -80,7 +80,7 @@ void Juego::gamePlay()
 				play->cmd(event, _acelerar);
 			}
 			else {
-				if (!play->getMuerto())
+				if (play->getEstado())
 					play->morir(_contadorCrear);
 			}
 		}
@@ -139,7 +139,7 @@ void Juego::gamePlay()
 		}
 		//Colsiones con bloques del Enemigo
 		for (it = _enemigos.begin(); it != _enemigos.end(); ++it) {
-			if (_mapa1->comprobarColisionAmbos(*it) && it->getMuerte() == false) {
+			if (_mapa1->comprobarColisionAmbos(*it) && it->getMuriendo() == false) {
 				it->choqueBloque();
 			}
 		}
@@ -243,7 +243,7 @@ void Juego::gamePlay()
 		list<Enemigo>::iterator it2;
 		for (it2 = _enemigos.begin(); it2 != _enemigos.end(); ++it2) {
 			for (int i = 0; i < 2; i++) {
-				if ((_fuegos[i].isColision(*it2) && _fuegos[i].getEstado() && it2->getMuerte() == false) || (_fuegosV[i].isColision(*it2) && _fuegosV[i].getEstado() && it2->getMuerte() == false)) {
+				if ((_fuegos[i].isColision(*it2) && _fuegos[i].getEstado() && it2->getMuriendo() == false) || (_fuegosV[i].isColision(*it2) && _fuegosV[i].getEstado() && it2->getMuriendo() == false)) {
 					it2->setEstado(false);
 				}
 			}
@@ -251,7 +251,7 @@ void Juego::gamePlay()
 		//Puerta de la victoria
 		_contadorEnemigosEliminados = 0;
 		for (it2 = _enemigos.begin(); it2 != _enemigos.end(); ++it2) {
-			if (it2->getMuerte()) {
+			if (it2->getMuriendo()) {
 				_contadorEnemigosEliminados++;
 			}
 		}

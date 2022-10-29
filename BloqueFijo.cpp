@@ -6,6 +6,7 @@ BloqueFijo::BloqueFijo(int a, int b)
 	_sprite.setTexture(_txt);
 	_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height / 2);
 	_sprite.setPosition(a * 45+22.5f, b * 45+22.5f);//(a*90 + 152.5f,b*90 + 97.7f );
+	_estado = false;
 }
 
 void BloqueFijo::setTexture()
@@ -20,28 +21,14 @@ void BloqueFijo::setPosicion(int a, int b)
 	_sprite.setPosition(45 * a + 62.5f, 45.0 * b);
 }
 
-bool BloqueFijo::getEstado()
-{
-	return _estado;
-}
+//FloatRect BloqueFijo::getBounds() const
+//{
+//	FloatRect nuevo;
+//	nuevo.height = _sprite.getGlobalBounds().height - 5;
+//	nuevo.width = _sprite.getGlobalBounds().width - 5;
+//	nuevo.top = _sprite.getGlobalBounds().top;
+//	nuevo.left = _sprite.getGlobalBounds().left;
+//	return nuevo;
+//	//return _sprite.getGlobalBounds();
+//}
 
-Sprite BloqueFijo::getBloque()
-{
-	return _sprite;
-}
-
-FloatRect BloqueFijo::getBounds() const
-{
-	FloatRect nuevo;
-	nuevo.height = _sprite.getGlobalBounds().height - 5;
-	nuevo.width = _sprite.getGlobalBounds().width - 5;
-	nuevo.top = _sprite.getGlobalBounds().top;
-	nuevo.left = _sprite.getGlobalBounds().left;
-	return nuevo;
-	//return _sprite.getGlobalBounds();
-}
-
-void BloqueFijo::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	target.draw(_sprite, states);
-}

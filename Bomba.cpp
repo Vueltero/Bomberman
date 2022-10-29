@@ -6,17 +6,8 @@ Bomba::Bomba()
 	_sprite.setTexture(_txt);
 	_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height / 2);
 	_timer = 60 * 5;
+	_estado = false;
 }
-
-Sprite Bomba::getSprite()
-{
-	return _sprite;
-}
-
-/*bool Bomba::getEstado()
-{
-	return _estado;
-}*/
 
 void Bomba::crearExplotar(bool &actLlama)
 {
@@ -40,14 +31,4 @@ void Bomba::crearBomba(Vector2f posicion)
 void Bomba::setSpritePosition(Vector2f posicion)
 {
 	_sprite.setPosition(posicion);
-}
-
-FloatRect Bomba::getBounds() const
-{
-	return _sprite.getGlobalBounds();
-}
-
-void Bomba::draw(RenderTarget& target, RenderStates states) const
-{
-	target.draw(_sprite, states);
 }

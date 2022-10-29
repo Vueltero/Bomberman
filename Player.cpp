@@ -14,7 +14,7 @@ Player::Player()
 	_sprite.setTexture(_txt);
 	_sprite.setOrigin((_sprite.getGlobalBounds().width ) / 2, (_sprite.getGlobalBounds().height) / 2);
 	_muriendo = false;
-	_muerto = false;
+	_estado = true;
 }
 
 void Player::cmd(Event evento, bool acelerar)
@@ -141,26 +141,26 @@ void Player::cmd(Event evento, bool acelerar)
 //	_sprite.getPosition().x
 //}
 
-void Player::choqueBloque()
-{
-	_sprite.move(-_velocidad);
-}
-
-void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	target.draw(_sprite, states);
-}
-
-FloatRect Player::getBounds() const
-{
-	
-	return _sprite.getGlobalBounds();
-}
-
-Sprite Player::getSprite()
-{
-	return _sprite;
-}
+//void Player::choqueBloque()
+//{
+//	_sprite.move(-_velocidad);
+//}
+//
+//void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
+//{
+//	target.draw(_sprite, states);
+//}
+//
+//FloatRect Player::getBounds() const
+//{
+//	
+//	return _sprite.getGlobalBounds();
+//}
+//
+//Sprite Player::getSprite()
+//{
+//	return _sprite;
+//}
 void Player::animacionCaminar(int direccion) {
 
 	string cadena;
@@ -252,7 +252,7 @@ void Player::morir(int &contadorMuerto) {
 	else {
 		_txt.loadFromFile("vacio.png");
 		_sprite.setTexture(_txt);
-		_muerto = true;
+		_estado = false;
 		contadorMuerto++;
 	}
 }

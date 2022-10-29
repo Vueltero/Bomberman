@@ -12,17 +12,3 @@ BloqueDestruibles::BloqueDestruibles(int a, int b)
 	_sprite.setPosition(a*45+22.5, b*45+22.5);
 	_estado == true;
 }
-
-FloatRect BloqueDestruibles::getBounds() const
-{
-	
-	return _sprite.getGlobalBounds();
-}
-
-void BloqueDestruibles::draw(RenderTarget& target, RenderStates states) const
-{
-	target.draw(_sprite, states);
-}
-bool BloqueDestruibles::getEstado() {
-	return _estado;
-}

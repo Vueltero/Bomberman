@@ -1,19 +1,16 @@
 #include "Enemigo.h"
 
 Enemigo::Enemigo() {
-	//_timerCamina = 20;
+
 	_velocidad = { 0,0 };
-	//_txt[0].loadFromFile("down1.png");
-	//_txt[1].loadFromFile("up1.png");
-	//_txt[2].loadFromFile("right1.png");
-	//_txt[3].loadFromFile("left1.png");
+
 	_txt.loadFromFile("globo1.png");
 	_sprite.setTexture(_txt);
 	_sprite.setOrigin((_sprite.getGlobalBounds().width) / 2, (_sprite.getGlobalBounds().height) / 2);
 	_sprite.setPosition(607.5, 517.5);
 	random = 0;
 	_estado = true;
-	_muerte = false;
+	_muriendo = false;
 }
 
 void Enemigo::cmd()
@@ -29,7 +26,7 @@ void Enemigo::cmd()
 		_tiempoMov = 60;
 	}
 	_tiempoMov--;
-	 
+
 	switch (random)
 	{
 	case 1:
@@ -67,65 +64,9 @@ void Enemigo::cmd()
 	if (_sprite.getPosition().y < margenAlto) {
 		_sprite.setPosition(_sprite.getPosition().x, margenAlto);
 	}
-	if (_sprite.getPosition().y > 600 - margenAlto-10) {
-		_sprite.setPosition(_sprite.getPosition().x, 600 - margenAlto-10);
+	if (_sprite.getPosition().y > 600 - margenAlto - 10) {
+		_sprite.setPosition(_sprite.getPosition().x, 600 - margenAlto - 10);
 	}
-}
-
-
-void Enemigo::choqueBloque()
-{
-	_sprite.move(-_velocidad);
-}
-
-void Enemigo::draw(sf::RenderTarget& target, sf::RenderStates states) const
-{
-	target.draw(_sprite, states);
-}
-
-FloatRect Enemigo::getBounds() const
-{
-
-	return _sprite.getGlobalBounds();
-}
-
-Sprite Enemigo::getSprite()
-{
-	return _sprite;
-}
-void Enemigo::animacionCaminar(int direccion) {
-
-	string cadena= "globo";
-	if (__timerCamina > 0) {
-		switch (direccion)
-		{
-		case 1:
-			cadena += to_string(_path) + ".png";
-			_txt.loadFromFile(cadena);
-			_sprite.setTexture(_txt);
-			break;
-		case 2:
-			cadena +=to_string(_path) + ".png";
-			_txt.loadFromFile(cadena);
-			_sprite.setTexture(_txt);
-			break;
-		case 3:
-			cadena +=to_string(_path) + ".png";
-			_txt.loadFromFile(cadena);
-			_sprite.setTexture(_txt);
-			break;
-		}
-	}
-	else {
-		__timerCamina = 30;
-		if (_path < 2) {
-			_path++;
-		}
-		else {
-			_path = 1;
-		}
-	}
-	__timerCamina--;
 }
 void Enemigo::morir() {
 	if (!_estado) {
@@ -171,7 +112,7 @@ void Enemigo::morir() {
 		else {
 			_txt.loadFromFile("vacio.png");
 			_sprite.setTexture(_txt);
-			_muerte = true;
+			_muriendo = true;
 		}
 
 	}

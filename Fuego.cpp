@@ -3,15 +3,12 @@
 Fuego::Fuego()
 {
 	_txt.loadFromFile("fuegos1.png");
-	//_txt[1].loadFromFile("fuegoh.png");
-	//_txt[2].loadFromFile("fuegov.png");
 	_sprite.setTexture(_txt);
-	//_sprite.setPosition(800,600);
 	_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height / 2);
 	_estado = false;
 	
-	_bufFuego.loadFromFile("fuego.wav");
-	_sonFuego.setBuffer(_bufFuego);
+	_bufSonido.loadFromFile("fuego.wav");
+	_sonido.setBuffer(_bufSonido);
 	_timer = 2 * 60;
 }
 
@@ -20,20 +17,10 @@ void Fuego::setSpritePosition(Vector2f posicion)
 	_sprite.setPosition(posicion);
 }
 
-void Fuego::draw(RenderTarget& target, RenderStates states) const
-{
-	target.draw(_sprite, states);
-}
-
-FloatRect Fuego::getBounds() const
-{
-	return _sprite.getGlobalBounds();
-}
-
 void Fuego::crearLlama()
 {
 	if (_timer == 119) {
-		_sonFuego.play();
+		_sonido.play();
 	}
 	if (_timer > 90) {
 		_txt.loadFromFile("fuegos1.png");

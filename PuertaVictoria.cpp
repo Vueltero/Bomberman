@@ -6,17 +6,6 @@ PuertaVictoria::PuertaVictoria() {
 	_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height / 2);
 	_estado = false;
 }
-
-
-FloatRect PuertaVictoria::getBounds() const
-{
-	return _sprite.getGlobalBounds();
-}
-
-void PuertaVictoria::draw(RenderTarget& target, RenderStates states) const
-{
-	target.draw(_sprite, states);
-}
 void PuertaVictoria::abrirPuerta() {
 	_txt.loadFromFile("PuertaVictoria2.png");
 	_sprite.setTexture(_txt);
