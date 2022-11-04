@@ -24,6 +24,8 @@ public:
 	void dibujarBoostBomba(RenderWindow* v);
 	void dibujarPuertaVictoria(RenderWindow* v);
 
+	BloqueDestruibles* comprobarChoqueDestruible(Colisionable& c);
+	BloqueFijo* comprobarChoqueFijo(Colisionable& c);
 	bool comprobarColisionAmbos(Colisionable& c);
 	void comprobarColisionDestruir(Colisionable& c);
 	bool comprobarColisionVelocidad(Colisionable& c);
@@ -32,8 +34,8 @@ public:
 	
 	
 private:
-	int _mat[13][15];
-	BloqueFijo * _bf[76];
+	int _mat[13][13];
+	BloqueFijo * _bf[73];
 	BloqueDestruibles * _bd[100];
 	BoostVelocidad _bv1, _bv2;
 	BoostBomba _bb1, _bb2;

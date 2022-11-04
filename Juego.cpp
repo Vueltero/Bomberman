@@ -6,10 +6,10 @@ Juego::Juego()
 	_ventana1 = new RenderWindow(VideoMode(800, 600), "Bomberman");
 	_ventana1->setFramerateLimit(60);
 
-	_txtFondo.loadFromFile("FondoSinMedio.png");
-	_fondo.setTexture(_txtFondo);
-	//_fondo.setOrigin(_fondo.getGlobalBounds().width / 2, _fondo.getGlobalBounds().height / 2);
-	_fondo.setPosition(0, 0);
+	//_txtFondo.loadFromFile("FondoSinMedio.png");
+	//_fondo.setTexture(_txtFondo);
+	////_fondo.setOrigin(_fondo.getGlobalBounds().width / 2, _fondo.getGlobalBounds().height / 2);
+	//_fondo.setPosition(0, 0);
 	_txtFondoGameOver.loadFromFile("gameOver.jpg");
 	_fondoGameOver.setTexture(_txtFondoGameOver);
 
@@ -133,14 +133,19 @@ void Juego::gamePlay()
 		}
 		//Colisiones con bloques de PJ
 		for (play = _players.begin(); play != _players.end(); ++play) {
-			if (_mapa1->comprobarColisionAmbos(*play)) {
-				play->choqueBloque();
+			if (_mapa1->comprobarChoqueDestruible(*play) != nullptr) {
+				play->choqueBloque(_mapa1->comprobarChoqueDestruible(*play));
+			}
+			if (_mapa1->comprobarChoqueFijo(*play) != nullptr) {
+				play->choqueBloque(_mapa1->comprobarChoqueFijo(*play));
 			}
 		}
+		
+
 		//Colsiones con bloques del Enemigo
 		for (it = _enemigos.begin(); it != _enemigos.end(); ++it) {
 			if (_mapa1->comprobarColisionAmbos(*it) && it->getMuriendo() == false) {
-				it->choqueBloque();
+				//it->choqueBloque();
 			}
 		}
 		// Destruccion de bloques flojos
@@ -152,15 +157,11 @@ void Juego::gamePlay()
 				_mapa1->comprobarColisionDestruir(_fuegosV[i]);
 			}
 		}
-		
-
-		//poner bomba, solo si no esta muriendo y naturalmente no muerto
 		for (play = _players.begin(); play != _players.end(); ++play) {
 			if (!_dosBombas) {
-				if (Keyboard::isKeyPressed(Keyboard::Space) && _bombas[0].getEstado() == false && play->getMuriendo() == false) {
+				if (Keyboard::isKeyPressed(Keyboard::Space) && _bombas[0].getEstadosBis() == desactivada && play->getMuriendo() == false) {
 					_sonBomba.play();
-					bool estado;
-					_bombas[0].crearExplotar(estado);
+					_bombas[0].crearExplotar();
 					_bombas[0].setSpritePosition(play->getSprite().getPosition());
 					play->setTocandoBomba(true);
 				}
@@ -171,7 +172,7 @@ void Juego::gamePlay()
 						if (_bombas[i].getEstado() == false && _tiempoBombas < 0) {
 							_sonBomba.play();
 							bool estado = false;
-							_bombas[i].crearExplotar(estado);
+							_bombas[i].crearExplotar();
 							_bombas[i].setSpritePosition(play->getSprite().getPosition());
 							play->setTocandoBomba(true);
 							_tiempoBombas = 60;
@@ -182,18 +183,55 @@ void Juego::gamePlay()
 				_tiempoBombas--;
 			}
 		}
+		for (int i = 0; i < 2; i++) {
+			if (_bombas[i].getEstadosBis() == activada) {
+				_bombas[i].crearExplotar();
+			}
+			else if (_bombas[i].getEstadosBis() == fuego) {
+				_bombas[i].crearExplotar()
+			}
+		}
+
+		//poner bomba, solo si no esta muriendo y naturalmente no muerto
+		//for (play = _players.begin(); play != _players.end(); ++play) {
+		//	if (!_dosBombas) {
+		//		if (Keyboard::isKeyPressed(Keyboard::Space) && _bombas[0].getEstado() == false && play->getMuriendo() == false) {
+		//			_sonBomba.play();
+		//			bool estado;
+		//			_bombas[0].crearExplotar(estado);
+		//			_bombas[0].setSpritePosition(play->getSprite().getPosition());
+		//			play->setTocandoBomba(true);
+		//		}
+		//	}
+		//	else {
+		//		for (int i = 0; i < 2; i++) {
+		//			if (Keyboard::isKeyPressed(Keyboard::Space) && play->getMuriendo() == false) {
+		//				if (_bombas[i].getEstado() == false && _tiempoBombas < 0) {
+		//					_sonBomba.play();
+		//					bool estado = false;
+		//					_bombas[i].crearExplotar(estado);
+		//					_bombas[i].setSpritePosition(play->getSprite().getPosition());
+		//					play->setTocandoBomba(true);
+		//					_tiempoBombas = 60;
+		//				}
+		//			}
+		//		}
+		//		//tiempo entre 2 bombas
+		//		_tiempoBombas--;
+		//	}
+		//}
 		//contacto con bomba de pj
 		for (play = _players.begin(); play != _players.end(); ++play) {
 			for (int i = 0; i < 2; i++) {
 				if (play->getTocandoBomba() && !(play->isColision(_bombas[i])) && _bombas[i].getEstado()) {
 					play->setTocandoBomba(false);
 				}
-			}			
+			}
 		}
 		for (play = _players.begin(); play != _players.end(); ++play) {
 			for (int i = 0; i < 2; i++) {
 				if (!(play->getTocandoBomba()) && play->isColision(_bombas[i]) && _bombas[i].getEstado()) {
-					play->choqueBloque();
+					//	play->choqueBloque();
 				}
 			}
 		}
@@ -201,12 +239,12 @@ void Juego::gamePlay()
 		for (it = _enemigos.begin(); it != _enemigos.end(); ++it) {
 			for (int i = 0; i < 2; i++) {
 				if (it->isColision(_bombas[i]) && _bombas[i].getEstado()) {
-					it->choqueBloque();
+					//	it->choqueBloque();
 				}
 			}
 		}
 
-		for (int i = 0; i < 2; i++) {
+		/*for (int i = 0; i < 2; i++) {
 			if (_bombas[i].getEstado() == true) {
 				bool estado = false;
 				_bombas[i].crearExplotar(estado);
@@ -221,13 +259,13 @@ void Juego::gamePlay()
 				_fuegos[i].crearLlama();
 				_fuegosV[i].crearLlama();
 			}
-		}
+		}*/
 
 		//colision y muerte del pj, primero por fuego, luego por chocar enemigos
 		for (play = _players.begin(); play != _players.end(); ++play) {
 			for (int i = 0; i < 2; i++) {
 				if ((_fuegos[i].isColision(*play) && _fuegos[i].getEstado()) || (_fuegosV[i].isColision(*play) && _fuegosV[i].getEstado())) {
-					play->setMuriendo(true);	
+					play->setMuriendo(true);
 				}
 			}
 		}
@@ -235,7 +273,7 @@ void Juego::gamePlay()
 			for (it = _enemigos.begin(); it != _enemigos.end(); ++it) {
 				if (it->isColision(*play) && it->getEstado()) {
 					play->setMuriendo(true);
-			
+
 				}
 			}
 		}
@@ -298,7 +336,7 @@ void Juego::dibujar()
 	_mapa1->dibujarFijos(_ventana1);
 
 	for (int i = 0; i < 2; i++) {
-		if (_bombas[i].getEstado() == true) {
+		if (_bombas[i].getEstadosBis()==activada || _bombas[i].getEstadosBis()==fuego) {
 			_ventana1->draw(_bombas[i]);
 		}
 	}

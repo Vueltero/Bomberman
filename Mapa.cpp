@@ -8,13 +8,13 @@ Mapa::Mapa()
 }
 void Mapa::generarMapa() {
 
-	_mat[13][15] = {};
+	_mat[13][13] = {};
 	int cont = 0;
 	int random = 1;
 	_contRandom = 0;
 	for (int i = 0; i < 13; i++) { // 2 ES BLOQUE FIJO, 0 ES LIBRE Y 1 ROMPIBLE
-		for (int j = 0; j < 15; j++) {
-			if (i == 0 || j == 0 || i == 12 || j == 14) {
+		for (int j = 0; j < 13; j++) {
+			if (i == 0 || j == 0 || i == 12 || j == 12) {
 				_mat[i][j] = 2;
 			}
 			else if (i % 2 == 0 && j % 2 == 0) {
@@ -35,13 +35,13 @@ void Mapa::generarMapa() {
 	}
 	int posD = 0, posF = 0;
 	for (int i = 0; i < 13; i++) {
-		for (int j = 0; j < 15; j++) {
+		for (int j = 0; j < 13; j++) {
 			if (_mat[i][j] == 1) {
-				_bd[posD] = new BloqueDestruibles(j, i);
+				_bd[posD] = new BloqueDestruibles(i, j);
 				posD++;
 			}
 			else if (_mat[i][j] == 2) {
-				_bf[posF] = new BloqueFijo(j, i);
+				_bf[posF] = new BloqueFijo(i, j);
 				posF++;
 			}
 		}
@@ -81,7 +81,7 @@ void Mapa::dibujarBoostBomba(RenderWindow* v) {
 
 void Mapa::dibujarFijos(RenderWindow* v)
 {
-	for (int i = 0; i < 82; i++) {
+	for (int i = 0; i < 73; i++) {
 		v->draw(*_bf[i]);
 	}
 }
@@ -93,7 +93,7 @@ void Mapa::dibujarDestruibles(RenderWindow* v) {
 }
 
 bool Mapa::comprobarColisionAmbos(Colisionable& c) {
-	for (int i = 0; i < 76; i++) {
+	for (int i = 0; i < 73; i++) {
 		if (c.isColision(*_bf[i])) {
 			return true;
 		}
@@ -106,6 +106,26 @@ bool Mapa::comprobarColisionAmbos(Colisionable& c) {
 		}
 	}
 	return false;
+}
+BloqueDestruibles* Mapa::comprobarChoqueDestruible(Colisionable& c) {
+	for (int i = 0; i < _contRandom; i++) {
+		if (c.isColision(*_bd[i])) {
+			if (_bd[i]->getEstado()) {
+				return _bd[i];
+			}
+		}
+	}
+	return nullptr;
+}
+
+BloqueFijo* Mapa::comprobarChoqueFijo(Colisionable& c)
+{
+	for (int i = 0; i < 73; i++) {
+		if (c.isColision(*_bf[i])) {
+			return _bf[i];
+		}
+	}
+	return nullptr;
 }
 
 void Mapa::comprobarColisionDestruir(Colisionable& c) {

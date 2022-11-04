@@ -12,7 +12,8 @@ Player::Player()
 	_sonPerderVida.setBuffer(_bufPer);
 	_txt.loadFromFile("down1.png");
 	_sprite.setTexture(_txt);
-	_sprite.setOrigin((_sprite.getGlobalBounds().width ) / 2, (_sprite.getGlobalBounds().height) / 2);
+	_sprite.setPosition(45, 45);
+	//_sprite.setOrigin((_sprite.getGlobalBounds().width ) / 2, (_sprite.getGlobalBounds().height) / 2);
 	_muriendo = false;
 	_estado = true;
 }
@@ -72,69 +73,12 @@ void Player::cmd(Event evento, bool acelerar)
 		}
 		break;
 	}
-
-	//if (evento.key.code == Keyboard::Down) {
-	//	_velocidad.y = mov;
-	//}
-	//else if (evento.key.code == Keyboard::Up) {
-	//	_velocidad.y = -1 * mov;
-	//}
-	//else if (evento.key.code == Keyboard::Left) {
-	//	_velocidad.x = -1 * mov;
-	//}
-	//else if (evento.key.code == Keyboard::Right) {
-	//	_velocidad.x = mov;
-	//}
-	//if (Keyboard::isKeyPressed(Keyboard::Up)) {
-	//
-	//	_velocidad.y = -1*mov;
-	//}
-	//else if (Keyboard::isKeyPressed(Keyboard::Down)) {
-	//
-	//	_velocidad.y = mov;
-	//}
-	//else if (Keyboard::isKeyPressed(Keyboard::Left)) {
-	//
-	//	_velocidad.x = -1*mov;
-	//}
-	//else if (Keyboard::isKeyPressed(Keyboard::Right)) {
-	//
-	//	_velocidad.x = mov;
-	//
-	//}
 	_sprite.move(_velocidad);
 
 	if (evento.KeyReleased) {
 		_sprite.setPosition(_sprite.getPosition());
 	}
 
-	//if (_velocidad.x < 0) {
-	//	_sprite.setTexture(_txt[3]);
-	//}
-	//else if (_velocidad.x > 0) {
-	//	_sprite.setTexture(_txt[2]);
-	//}
-	//else if (_velocidad.y < 0) {
-	//	_sprite.setTexture(_txt[1]);
-	//}
-	//else if (_velocidad.y > 0) {
-	//	_sprite.setTexture(_txt[0]);
-	//}
-
-	//BORDES
-	float margenAncho = 47 + _sprite.getGlobalBounds().width / 2, margenAlto = 47 + _sprite.getGlobalBounds().height / 2;
-	if (_sprite.getPosition().x < margenAncho) {
-		_sprite.setPosition(margenAncho, _sprite.getPosition().y);
-	}
-	if (_sprite.getPosition().x > 800 - margenAncho) {
-		_sprite.setPosition(800 - margenAncho, _sprite.getPosition().y);
-	}
-	if (_sprite.getPosition().y < margenAlto) {
-		_sprite.setPosition(_sprite.getPosition().x, margenAlto);
-	}
-	if (_sprite.getPosition().y > 600 - margenAlto-10) {
-		_sprite.setPosition(_sprite.getPosition().x, 600 - margenAlto-10);
-	}
 }
 
 //void Player::caminar() {

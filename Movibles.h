@@ -2,6 +2,8 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include "Colisionable.h"
+#include "BloquesDestruibles.h"
+#include "BloqueFijo.h"
 #include <string.h>
 #include <random>
 #include <iostream>
@@ -10,11 +12,14 @@ using namespace std;
 class Movibles : public Colisionable, public Drawable
 {
 public:
-	void choqueBloque();
+	void choqueBloque(BloqueDestruibles* bd);
+	void choqueBloque(BloqueFijo* bd);
 	virtual void animacionCaminar(int direccion);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual FloatRect getBounds() const;
 	Sprite getSprite();
+	bool reacomodo(BloqueDestruibles*);
+	bool reacomodo(BloqueFijo*);
 
 	bool getMuriendo() { return _muriendo; }
 	bool getEstado() { return _estado; }
