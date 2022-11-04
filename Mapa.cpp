@@ -8,7 +8,6 @@ Mapa::Mapa()
 }
 void Mapa::generarMapa() {
 
-	_mat[13][13] = {};
 	int cont = 0;
 	int random = 1;
 	_contRandom = 0;
@@ -21,6 +20,9 @@ void Mapa::generarMapa() {
 				_mat[i][j] = 2;
 			}
 			else if (i == 1 && j == 1 || i == 1 && j == 2 || i == 2 && j == 1) {
+				_mat[i][j] = 0;
+			}
+			else if ((i==11 && (j==11 || j==10)) || (j==11 && (i==11 || i==10))) {
 				_mat[i][j] = 0;
 			}
 			else if (cont < 100) {
@@ -41,7 +43,7 @@ void Mapa::generarMapa() {
 				posD++;
 			}
 			else if (_mat[i][j] == 2) {
-				_bf[posF] = new BloqueFijo(i, j);
+				_bf[posF] = new BloqueFijo(i,j);
 				posF++;
 			}
 		}
@@ -50,21 +52,24 @@ void Mapa::generarMapa() {
 	mt19937 gen(rd());
 	uniform_int_distribution<> dis(0, posD);
 	_bv1.setPosicionSprite(_bd[dis(gen)]->getSpritePosition());
+	_bv1.getSprite().move(2.5, 2.5);//centra el boost
 	mt19937 gen2(rd());
 	uniform_int_distribution<> dis2(0, posD);
 	_bv2.setPosicionSprite(_bd[dis2(gen2)]->getSpritePosition());
-
+	_bv2.getSprite().move(2.5, 2.5);//centra el boost
 	mt19937 gen3(rd());
 	uniform_int_distribution<> dis3(0, posD);
 	_bb1.setPosicionSprite(_bd[dis3(gen3)]->getSpritePosition());
+	_bb1.getSprite().move(2.5, 2.5);//centra el boost
 
 	mt19937 gen4(rd());
 	uniform_int_distribution<> dis4(0, posD);
 	_bb2.setPosicionSprite(_bd[dis4(gen4)]->getSpritePosition());
-
+	_bb2.getSprite().move(2.5, 2.5);//centra el boost
 	mt19937 gen5(rd());
 	uniform_int_distribution<> dis5(0, posD);
 	_puertaVictoria.setPosicionSprite(_bd[dis5(gen5)]->getSpritePosition());
+	_puertaVictoria.getSprite().move(2.5, 2.5);//centra el boost
 }
 void Mapa::dibujarVelocidad(RenderWindow* v) {
 		if (_bv1.getEstado())
@@ -77,6 +82,16 @@ void Mapa::dibujarBoostBomba(RenderWindow* v) {
 		v->draw(_bb1);
 	if (_bb2.getEstado())
 		v->draw(_bb2);
+}
+
+int Mapa::getNumeroDestruibles()
+{
+	int cont = 0;
+	for (int i = 0; i < _contRandom; i++) {
+		if (_bd[i]->getEstado())
+			cont++;
+	}
+	return cont;
 }
 
 void Mapa::dibujarFijos(RenderWindow* v)
@@ -106,26 +121,6 @@ bool Mapa::comprobarColisionAmbos(Colisionable& c) {
 		}
 	}
 	return false;
-}
-BloqueDestruibles* Mapa::comprobarChoqueDestruible(Colisionable& c) {
-	for (int i = 0; i < _contRandom; i++) {
-		if (c.isColision(*_bd[i])) {
-			if (_bd[i]->getEstado()) {
-				return _bd[i];
-			}
-		}
-	}
-	return nullptr;
-}
-
-BloqueFijo* Mapa::comprobarChoqueFijo(Colisionable& c)
-{
-	for (int i = 0; i < 73; i++) {
-		if (c.isColision(*_bf[i])) {
-			return _bf[i];
-		}
-	}
-	return nullptr;
 }
 
 void Mapa::comprobarColisionDestruir(Colisionable& c) {
@@ -165,6 +160,26 @@ bool Mapa::comprobarColisionBoostBomba(Colisionable& c) {
 			return true;
 		}
 	}
+}
+BloqueDestruibles* Mapa::comprobarChoqueDestruible(Colisionable& c) {
+	for (int i = 0; i < _contRandom; i++) {
+		if (c.isColision(*_bd[i])) {
+			if (_bd[i]->getEstado()) {
+				return _bd[i];
+			}
+		}
+	}
+	return nullptr;
+}
+
+BloqueFijo* Mapa::comprobarChoqueFijo(Colisionable& c)
+{
+	for (int i = 0; i < 73; i++) {
+		if (c.isColision(*_bf[i])) {
+			return _bf[i];
+		}
+	}
+	return nullptr;
 }
 void Mapa::dibujarPuertaVictoria(RenderWindow* v) {
 	v->draw(_puertaVictoria);

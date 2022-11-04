@@ -3,7 +3,7 @@
 BoostVelocidad::BoostVelocidad() {
 	_txt.loadFromFile("velocidad.png");
 	_sprite.setTexture(_txt);
-//	_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height / 2);
+	_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height / 2);
 	_estado = true;
 }
 

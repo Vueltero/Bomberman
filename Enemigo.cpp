@@ -6,10 +6,10 @@ Enemigo::Enemigo() {
 
 	_txt.loadFromFile("globo1.png");
 	_sprite.setTexture(_txt);
-	//_sprite.setOrigin((_sprite.getGlobalBounds().width) / 2, (_sprite.getGlobalBounds().height) / 2);
-	_sprite.setPosition(607.5, 517.5);
+	_sprite.setOrigin((_sprite.getGlobalBounds().width) / 2, (_sprite.getGlobalBounds().height) / 2);
+	_sprite.setPosition(517.5, 517.5);
 	random = 0;
-	_estado = false;
+	_estado = true;
 	_muriendo = false;
 }
 

@@ -8,7 +8,7 @@ class BoostVelocidad : public Drawable, public Colisionable
 {
 public:
 	BoostVelocidad();
-	BoostVelocidad(int a, int b);
+	//BoostVelocidad(int a, int b);
 	Sprite getSprite() { return _sprite; }
 	FloatRect getBounds() const override;
 	void draw(RenderTarget& target, RenderStates states) const override;

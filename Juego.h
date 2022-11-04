@@ -27,7 +27,10 @@ public:
 	void victoria();
 	
 	bool getVictoria() { return _victoria; }
+	int getVidas() { return _vidas; }
+	void setVidas(int vidas) { _vidas = vidas; }
 	int getPuntaje() { return _puntaje; }
+	void setPuntaje(int puntaje) { _puntaje = puntaje; }
 
 private:
 	RenderWindow* _ventana1;
@@ -71,5 +74,10 @@ private:
 	SoundBuffer _bufItem;
 	Sound _sonItem;
 
+	Text _textoPuntaje;
+	Font _fuente;
+	Text _textoVidas;
+
+	int _totalDestruibles;
 };
 

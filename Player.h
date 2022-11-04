@@ -8,9 +8,9 @@ public:
 	void animacionCaminar(int direccion);
 	void morir(int&);
 
-	bool getTocandoBomba() { return _tocandoBomba; }
-	void setTocandoBomba(bool tocando) { _tocandoBomba = tocando; }
+	bool getTocandoBomba(int nBomba) { return _tocandoBomba[nBomba]; }
+	void setTocandoBomba(bool tocando,int nBomba) { _tocandoBomba[nBomba] = tocando; }
 
 private:
-	bool _tocandoBomba = false;
+	bool _tocandoBomba[2] = {};
 };

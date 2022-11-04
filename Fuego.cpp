@@ -4,7 +4,7 @@ Fuego::Fuego()
 {
 	_txt.loadFromFile("fuegos1.png");
 	_sprite.setTexture(_txt);
-    //_sprite.setOrigin(20,20);
+	_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height / 2);
 	_estado = false;
 	
 	_bufSonido.loadFromFile("fuego.wav");
@@ -53,5 +53,4 @@ void Fuego::crearLlama()
 void Fuego::rotarVertical()
 {
 	_sprite.setRotation(90);
-	//_sprite.setOrigin(20,20);
 }

@@ -17,6 +17,7 @@ public:
 	void setEstadoPV(bool estado) { _puertaVictoria.setEstado(estado); }
 	bool getEstadoPV() { return _puertaVictoria.getEstado(); }
 	void abrirPuerta() { _puertaVictoria.abrirPuerta(); };
+	int getNumeroDestruibles();
 	//void draw(RenderTarget& target, RenderStates states) const override;
 	void dibujarFijos(RenderWindow *v);
 	void dibujarDestruibles(RenderWindow* v);
@@ -24,8 +25,12 @@ public:
 	void dibujarBoostBomba(RenderWindow* v);
 	void dibujarPuertaVictoria(RenderWindow* v);
 
+
 	BloqueDestruibles* comprobarChoqueDestruible(Colisionable& c);
+	
+
 	BloqueFijo* comprobarChoqueFijo(Colisionable& c);
+
 	bool comprobarColisionAmbos(Colisionable& c);
 	void comprobarColisionDestruir(Colisionable& c);
 	bool comprobarColisionVelocidad(Colisionable& c);
@@ -34,7 +39,7 @@ public:
 	
 	
 private:
-	int _mat[13][13];
+	int _mat[13][13] = {};
 	BloqueFijo * _bf[73];
 	BloqueDestruibles * _bd[100];
 	BoostVelocidad _bv1, _bv2;
