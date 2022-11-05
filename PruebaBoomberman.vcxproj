@@ -143,6 +143,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mapa.cpp" />
     <ClCompile Include="Movibles.cpp" />
+    <ClCompile Include="Nivel2.cpp" />
+    <ClCompile Include="Nivel3.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PuertaVictoria.cpp" />
   </ItemGroup>
@@ -160,6 +162,8 @@
     <ClInclude Include="Juego.h" />
     <ClInclude Include="Mapa.h" />
     <ClInclude Include="Movibles.h" />
+    <ClInclude Include="Nivel2.h" />
+    <ClInclude Include="Nivel3.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PuertaVictoria.h" />
   </ItemGroup>

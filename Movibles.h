@@ -17,7 +17,7 @@ public:
 	void choqueBloque(BloqueDestruibles* bd);
 	bool reacomodo(BloqueDestruibles* bd);
 	bool reacomodo(BloqueFijo* bd);
-	virtual void animacionCaminar(int direccion);
+	//virtual void animacionCaminar(int direccion);
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const;
 	virtual FloatRect getBounds() const;
 	Sprite getSprite();

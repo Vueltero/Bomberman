@@ -14,13 +14,14 @@
 #include <iostream>
 
 
+
 using namespace std;
 using namespace sf;
 
 class Juego
 {
 public:
-	//Juego() {}
+	Juego() { _acelerar = false; _contadorCrear = 0; _contadorEnemigosEliminados = 0; _dosBombas = false; }
 	Juego(RenderWindow* _ventana1);
 	void gamePlay(RenderWindow* _ventana1);
 	void dibujar(RenderWindow* _ventana1);
@@ -35,7 +36,7 @@ public:
 	void setPuntaje(int puntaje) { _puntaje = puntaje; }
 	int getEnemigosVivos();
 	void finDeNivel();
-
+	void pantallaGameOver(RenderWindow *);
 protected:
 
 	Sprite _fondo;
@@ -84,5 +85,7 @@ protected:
 
 	int _totalDestruibles;
 	int _enemigosAMatar;
+
+	int timerGameOver = 60 * 2;
 };
 

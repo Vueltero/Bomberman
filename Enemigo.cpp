@@ -1,6 +1,6 @@
 #include "Enemigo.h"
 
-Enemigo::Enemigo() {
+Enemigo::Enemigo(Tipo tipo) {
 
 	_velocidad = { 0,0 };
 
@@ -11,11 +11,15 @@ Enemigo::Enemigo() {
 	random = 0;
 	_estado = true;
 	_muriendo = false;
+	_tipo = tipo;
 }
 
 void Enemigo::cmd()
 {
 	float mov = 2;
+	if (_tipo == brian) {
+		mov = 6;
+	}
 	_velocidad = {};
 	random_device rd;
 	if (_tiempoMov == 0) {
@@ -30,23 +34,23 @@ void Enemigo::cmd()
 	switch (random)
 	{
 	case 1:
-		//_sprite.setPosition(_sprite.getPosition().x, _sprite.getPosition().y - mov);
+
 		_velocidad.y = -1 * mov;
 		animacionCaminar(1);
 		break;
 	case 2:
-		//_sprite.setPosition(_sprite.getPosition().x, _sprite.getPosition().y + mov);
+
 		_velocidad.y = mov;
 		animacionCaminar(2);
 		break;
 
 	case 3:
-		//_sprite.setPosition(_sprite.getPosition().x-mov, _sprite.getPosition().y);
+
 		_velocidad.x = -1 * mov;
 		animacionCaminar(4);
 		break;
 	case 0:
-		//_sprite.setPosition(_sprite.getPosition().x+mov, _sprite.getPosition().y);
+
 		_velocidad.x = mov;
 		animacionCaminar(3);
 		break;
@@ -69,51 +73,209 @@ void Enemigo::cmd()
 	}
 }
 void Enemigo::morir() {
-	if (!_estado) {
-		if (__timerMuerte > 100) {
-			_txt.loadFromFile("globoMuerte1.png");
-			_sprite.setTexture(_txt);
 
-			__timerMuerte--;
+
+	switch (_tipo)
+	{
+	case maxi:
+		if (!_estado) {
+			if (__timerMuerte > 100) {
+				_txt.loadFromFile("maxiMuerte1.png");
+				_sprite.setTexture(_txt);
+
+				__timerMuerte--;
+			}
+			else if (__timerMuerte > 70) {
+				_txt.loadFromFile("maxiMuerte2.png");
+				_sprite.setTexture(_txt);
+
+				__timerMuerte--;
+			}
+			else if (__timerMuerte > 50) {
+
+				_txt.loadFromFile("maxiMuerte3.png");
+				_sprite.setTexture(_txt);
+
+				__timerMuerte--;
+			}
+			else if (__timerMuerte > 30) {
+				_sprite.move(-_velocidad);
+				_txt.loadFromFile("maxiMuerte4.png");
+				_sprite.setTexture(_txt);
+
+				__timerMuerte--;
+			}
+			else if (__timerMuerte > 10) {
+				_txt.loadFromFile("maxiMuerte5.png");
+				_sprite.setTexture(_txt);
+
+				__timerMuerte--;
+			}
+			else if (__timerMuerte > 0) {
+
+				_txt.loadFromFile("maxiMuerte6.png");
+				_sprite.setTexture(_txt);
+
+				__timerMuerte--;
+			}
+			else {
+				_txt.loadFromFile("vacio.png");
+				_sprite.setTexture(_txt);
+				_muriendo = true;
+			}
+
 		}
-		else if (__timerMuerte > 80) {
-			_txt.loadFromFile("globoMuerte2.png");
-			_sprite.setTexture(_txt);
+		break;
+	case brian:
+		if (!_estado) {
+			if (__timerMuerte > 100) {
+				_txt.loadFromFile("brianMuerte1.png");
+				_sprite.setTexture(_txt);
 
-			__timerMuerte--;
+				__timerMuerte--;
+			}
+			else if (__timerMuerte > 70) {
+				_txt.loadFromFile("brianMuerte2.png");
+				_sprite.setTexture(_txt);
+
+				__timerMuerte--;
+			}
+			else if (__timerMuerte > 50) {
+
+				_txt.loadFromFile("brianMuerte3.png");
+				_sprite.setTexture(_txt);
+
+				__timerMuerte--;
+			}
+			else if (__timerMuerte > 30) {
+				_sprite.move(-_velocidad);
+				_txt.loadFromFile("brianMuerte4.png");
+				_sprite.setTexture(_txt);
+
+				__timerMuerte--;
+			}
+			else if (__timerMuerte > 10) {
+				_txt.loadFromFile("brianMuerte5.png");
+				_sprite.setTexture(_txt);
+
+				__timerMuerte--;
+			}
+			else if (__timerMuerte > 0) {
+
+				_txt.loadFromFile("brianMuerte6.png");
+				_sprite.setTexture(_txt);
+
+				__timerMuerte--;
+			}
+			else {
+				_txt.loadFromFile("vacio.png");
+				_sprite.setTexture(_txt);
+				_muriendo = true;
+			}
+
 		}
-		else if (__timerMuerte > 60) {
+		break;
+	case kloster:
+		if (!_estado) {
+			if (__timerMuerte > 100) {
+				_txt.loadFromFile("maxiMuerte1.png");
+				_sprite.setTexture(_txt);
 
-			_txt.loadFromFile("globoMuerte3.png");
-			_sprite.setTexture(_txt);
+				__timerMuerte--;
+			}
+			else if (__timerMuerte > 70) {
+				_txt.loadFromFile("maxiMuerte2.png");
+				_sprite.setTexture(_txt);
 
-			__timerMuerte--;
+				__timerMuerte--;
+			}
+			else if (__timerMuerte > 50) {
+
+				_txt.loadFromFile("maxiMuerte3.png");
+				_sprite.setTexture(_txt);
+
+				__timerMuerte--;
+			}
+			else if (__timerMuerte > 30) {
+				_sprite.move(-_velocidad);
+				_txt.loadFromFile("maxiMuerte4.png");
+				_sprite.setTexture(_txt);
+
+				__timerMuerte--;
+			}
+			else if (__timerMuerte > 10) {
+				_txt.loadFromFile("maxiMuerte5.png");
+				_sprite.setTexture(_txt);
+
+				__timerMuerte--;
+			}
+			else if (__timerMuerte > 0) {
+
+				_txt.loadFromFile("maxiMuerte6.png");
+				_sprite.setTexture(_txt);
+
+				__timerMuerte--;
+			}
+			else {
+				_txt.loadFromFile("vacio.png");
+				_sprite.setTexture(_txt);
+				_muriendo = true;
+			}
+
 		}
-		else if (__timerMuerte > 40) {
-			_sprite.move(-_velocidad);
-			_txt.loadFromFile("globoMuerte4.png");
-			_sprite.setTexture(_txt);
+		break;
+	default:
+		break;
+	}
+	
+}
 
-			__timerMuerte--;
+void Enemigo::animacionCaminar(int direccion)
+{
+	string cadena;
+	switch (_tipo)
+	{
+	case maxi:
+		cadena = "maxi";
+		break;
+	case brian:
+		cadena = "brian";
+		break;
+	case kloster:
+		cadena = "maxi";
+		break;
+	default:
+		break;
+	}
+
+	if (__timerCamina > 0) {
+		switch (direccion)
+		{
+		case 1:
+			cadena += to_string(_path) + ".png";
+			_txt.loadFromFile(cadena);
+			_sprite.setTexture(_txt);
+			break;
+		case 2:
+			cadena += to_string(_path) + ".png";
+			_txt.loadFromFile(cadena);
+			_sprite.setTexture(_txt);
+			break;
+		case 3:
+			cadena += to_string(_path) + ".png";
+			_txt.loadFromFile(cadena);
+			_sprite.setTexture(_txt);
+			break;
 		}
-		else if (__timerMuerte > 20) {
-			_txt.loadFromFile("globoMuerte5.png");
-			_sprite.setTexture(_txt);
-
-			__timerMuerte--;
-		}
-		else if (__timerMuerte > 0) {
-			
-			_txt.loadFromFile("globoMuerte6.png");
-			_sprite.setTexture(_txt);
-
-			__timerMuerte--;
+	}
+	else {
+		__timerCamina = 30;
+		if (_path < 3) {
+			_path++;
 		}
 		else {
-			_txt.loadFromFile("vacio.png");
-			_sprite.setTexture(_txt);
-			_muriendo = true;
+			_path = 1;
 		}
-
 	}
+	__timerCamina--;
 }

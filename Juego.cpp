@@ -17,9 +17,9 @@ Juego::Juego(RenderWindow * _ventana1)
 	_fuegosV[0].rotarVertical();
 	_fuegosV[1].rotarVertical();
 
-	Enemigo* _enemigo1 = new Enemigo;
-	Enemigo* _enemigo2 = new Enemigo;
-	Enemigo* _enemigo3 = new Enemigo;
+	Enemigo* _enemigo1 = new Enemigo(maxi);
+	Enemigo* _enemigo2 = new Enemigo(brian);
+	Enemigo* _enemigo3 = new Enemigo(kloster);
 
 	_enemigos.push_back(*_enemigo1);
 	_enemigos.push_back(*_enemigo2);
@@ -65,16 +65,13 @@ Juego::Juego(RenderWindow * _ventana1)
 
 	_contadorEnemigosEliminados = 0;
 
-	_puntaje = 0;
 	_tiempoLimite = 5 * 60 * 60;
-
-	gamePlay( _ventana1);
 
 }
 
 void Juego::gamePlay(RenderWindow* _ventana1)
 {
-	while (_ventana1->isOpen()) {
+	while (!_gameOver) {
 		sf::Event event;
 		while (_ventana1->pollEvent(event)) {
 			if (event.type == Event::Closed) {
@@ -156,7 +153,7 @@ void Juego::gamePlay(RenderWindow* _ventana1)
 		}
 		//Colsiones con bloques del Enemigo
 		for (it = _enemigos.begin(); it != _enemigos.end(); ++it) {
-			if (_mapa1->comprobarChoqueDestruible(*it) != nullptr && it->getMuriendo() == false) {
+			if (_mapa1->comprobarChoqueDestruible(*it) != nullptr && it->getMuriendo() == false && it->getTipo()!=kloster) {
 
 				it->choqueBloque(_mapa1->comprobarChoqueDestruible(*it));
 			}
@@ -292,7 +289,7 @@ void Juego::gamePlay(RenderWindow* _ventana1)
 			}
 		}
 		if (_enemigosAMatar == 0) {
-			//JuegoNivel2 *_juego2 = new JuegoNivel2(_ventana1);
+			//
 		}
 		//comprobar puntajes por numero de destruibles restantes. Enemigos dan 5 pts
 		int destruiblesActuales = _mapa1->getNumeroDestruibles();
@@ -357,7 +354,6 @@ void Juego::dibujar(RenderWindow* _ventana1)
 	}
 	_ventana1->display();
 }
-
 int Juego::getEnemigosVivos()
 {
 	int cont = 0;
@@ -373,5 +369,15 @@ int Juego::getEnemigosVivos()
 void Juego::finDeNivel()
 {
 	delete this;
+}
+
+void Juego::pantallaGameOver(RenderWindow* _ventana1)
+{
+	while (timerGameOver > 0) {
+		_ventana1->clear();
+		_ventana1->draw(_fondoGameOver);
+		_ventana1->display();
+		timerGameOver--;
+	}
 }
 
