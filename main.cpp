@@ -6,12 +6,15 @@
 //#include "Fuego.h"
 
 #include "Juego.h"
+
 using namespace sf;
 
 
 
 
 int main() {
-	Juego _juego1;
+	RenderWindow* _ventana1 = new RenderWindow(VideoMode(800, 600), "Bomberman");
+	Juego _juego1(_ventana1);
+	
 	return 0;
 }

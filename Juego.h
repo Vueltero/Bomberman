@@ -13,15 +13,17 @@
 #include <stdio.h>
 #include <iostream>
 
+
 using namespace std;
 using namespace sf;
 
 class Juego
 {
 public:
-	Juego();
-	void gamePlay();
-	void dibujar();
+	//Juego() {}
+	Juego(RenderWindow* _ventana1);
+	void gamePlay(RenderWindow* _ventana1);
+	void dibujar(RenderWindow* _ventana1);
 	void generarEstadistica();
 	void verEstadisticaEnConsola();
 	void victoria();
@@ -31,9 +33,11 @@ public:
 	void setVidas(int vidas) { _vidas = vidas; }
 	int getPuntaje() { return _puntaje; }
 	void setPuntaje(int puntaje) { _puntaje = puntaje; }
+	int getEnemigosVivos();
+	void finDeNivel();
 
-private:
-	RenderWindow* _ventana1;
+protected:
+
 	Sprite _fondo;
 	Texture _txtFondo;
 	Sprite _fondoGameOver;
@@ -79,5 +83,6 @@ private:
 	Text _textoVidas;
 
 	int _totalDestruibles;
+	int _enemigosAMatar;
 };
 

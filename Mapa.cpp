@@ -8,6 +8,7 @@ Mapa::Mapa()
 }
 void Mapa::generarMapa() {
 
+	random_device rd;
 	int cont = 0;
 	int random = 1;
 	_contRandom = 0;
@@ -26,10 +27,12 @@ void Mapa::generarMapa() {
 				_mat[i][j] = 0;
 			}
 			else if (cont < 100) {
-				random = rand() % 2 + 0;
-				_mat[i][j] = random;
+				mt19937 gen(rd());
+				uniform_int_distribution<> dis(0, 1);
+				random = dis(gen);
+				_mat[i][j] =random;
 				cont++;
-				if (random == 1) {
+				if ( random == 1) {
 					_contRandom++;
 				}
 			}
@@ -48,7 +51,7 @@ void Mapa::generarMapa() {
 			}
 		}
 	}
-	random_device rd;
+	
 	mt19937 gen(rd());
 	uniform_int_distribution<> dis(0, posD);
 	_bv1.setPosicionSprite(_bd[dis(gen)]->getSpritePosition());
@@ -146,6 +149,7 @@ bool Mapa::comprobarColisionVelocidad(Colisionable& c) {
 			return true;
 		}
 	}
+	return false;
 }
 bool Mapa::comprobarColisionBoostBomba(Colisionable& c) {
 	if (c.isColision(_bb1)) {

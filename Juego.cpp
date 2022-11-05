@@ -1,9 +1,9 @@
 #include "Juego.h"
 
 
-Juego::Juego()
+Juego::Juego(RenderWindow * _ventana1)
 {
-	_ventana1 = new RenderWindow(VideoMode(800, 600), "Bomberman");
+	
 	_ventana1->setFramerateLimit(60);
 
 	_txtFondo.loadFromFile("fondo.png");
@@ -57,6 +57,7 @@ Juego::Juego()
 	_vidas = 3;
 	_puntaje = 0;
 	_totalDestruibles = _mapa1->getNumeroDestruibles();
+	_enemigosAMatar = 3;
 	
 
 	_acelerar = false;
@@ -67,11 +68,11 @@ Juego::Juego()
 	_puntaje = 0;
 	_tiempoLimite = 5 * 60 * 60;
 
-	gamePlay();
+	gamePlay( _ventana1);
 
 }
 
-void Juego::gamePlay()
+void Juego::gamePlay(RenderWindow* _ventana1)
 {
 	while (_ventana1->isOpen()) {
 		sf::Event event;
@@ -266,7 +267,6 @@ void Juego::gamePlay()
 			for (int i = 0; i < 2; i++) {
 				if ((_fuegos[i].isColision(*it2) && _fuegos[i].getEstado() && it2->getMuriendo() == false) || (_fuegosV[i].isColision(*it2) && _fuegosV[i].getEstado() && it2->getMuriendo() == false)) {
 					it2->setEstado(false);
-					_puntaje += 5;
 				}
 			}
 		}
@@ -291,19 +291,27 @@ void Juego::gamePlay()
 				_gameOver = true;
 			}
 		}
-		//comprobar puntajes por numero de destruibles restantes.
+		if (_enemigosAMatar == 0) {
+			//JuegoNivel2 *_juego2 = new JuegoNivel2(_ventana1);
+		}
+		//comprobar puntajes por numero de destruibles restantes. Enemigos dan 5 pts
 		int destruiblesActuales = _mapa1->getNumeroDestruibles();
 		if (_totalDestruibles > destruiblesActuales) {
 			_puntaje += (_totalDestruibles - destruiblesActuales);
 			_totalDestruibles = destruiblesActuales;
 		}
+		int enemigosVivosActuales = getEnemigosVivos();
+		if (_enemigosAMatar > enemigosVivosActuales) {
+			_puntaje += (_enemigosAMatar - enemigosVivosActuales)*10;
+			_enemigosAMatar -= (_enemigosAMatar - enemigosVivosActuales);
+		}
 		_textoVidas.setString("VIDAS: " + to_string(_vidas));
 		_textoPuntaje.setString("PUNTAJE: " + to_string(_puntaje));
-		dibujar();
+		dibujar(_ventana1);
 	}
 }
 
-void Juego::dibujar()
+void Juego::dibujar(RenderWindow* _ventana1)
 {
 	_ventana1->clear();
 	_ventana1->draw(_fondo);
@@ -348,5 +356,22 @@ void Juego::dibujar()
 		_ventana1->draw(_fondoGameOver);
 	}
 	_ventana1->display();
+}
+
+int Juego::getEnemigosVivos()
+{
+	int cont = 0;
+	list<Enemigo>::iterator it;
+	for (it = _enemigos.begin(); it != _enemigos.end(); ++it) {
+		if (it->getEstado() == true) {
+			cont++;
+		}
+	}
+	return cont;
+}
+
+void Juego::finDeNivel()
+{
+	delete this;
 }
 
