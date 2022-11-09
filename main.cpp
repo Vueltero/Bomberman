@@ -28,7 +28,7 @@ int main() {
 			_nivel2->pantallaGameOver(_ventana1);
 		}
 		else {
-			Nivel3* _nivel3 = new Nivel3(_ventana1, _juego1->getPuntaje(), _juego1->getVidas());
+			Nivel3* _nivel3 = new Nivel3(_ventana1, _nivel2->getPuntaje(), _nivel2->getVidas());
 			_nivel3->mostarStage(_ventana1, 3);
 			_nivel3->gamePlay(_ventana1);
 			if (_nivel3->getVidas() == 0) {
