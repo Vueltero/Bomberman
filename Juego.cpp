@@ -8,8 +8,6 @@ Juego::Juego(RenderWindow * _ventana1)
 
 	_txtFondo.loadFromFile("fondo.png");
 	_fondo.setTexture(_txtFondo);
-	////_fondo.setOrigin(_fondo.getGlobalBounds().width / 2, _fondo.getGlobalBounds().height / 2);
-	//_fondo.setPosition(45+22.5, 45+22.5);
 
 	_txtFondoGameOver.loadFromFile("gameOver.jpg");
 	_fondoGameOver.setTexture(_txtFondoGameOver);
@@ -18,8 +16,8 @@ Juego::Juego(RenderWindow * _ventana1)
 	_fuegosV[1].rotarVertical();
 
 	Enemigo* _enemigo1 = new Enemigo(maxi);
-	Enemigo* _enemigo2 = new Enemigo(brian);
-	Enemigo* _enemigo3 = new Enemigo(kloster);
+	Enemigo* _enemigo2 = new Enemigo(maxi);
+	Enemigo* _enemigo3 = new Enemigo(maxi);
 
 	_enemigos.push_back(*_enemigo1);
 	_enemigos.push_back(*_enemigo2);
@@ -285,6 +283,9 @@ void Juego::gamePlay(RenderWindow* _ventana1)
 				//ganar
 				//victoria();
 				_victoria = true;
+				// play->getSprite().setPosition(_mapa1->getPositionPuerta());
+				//play->animacionGanar(); 
+
 				_gameOver = true;
 			}
 		}

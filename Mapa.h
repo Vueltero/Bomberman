@@ -17,6 +17,7 @@ public:
 	void setEstadoPV(bool estado) { _puertaVictoria.setEstado(estado); }
 	bool getEstadoPV() { return _puertaVictoria.getEstado(); }
 	void abrirPuerta() { _puertaVictoria.abrirPuerta(); };
+	Vector2f getPositionPuerta() { return _puertaVictoria.getSprite().getPosition(); }
 	int getNumeroDestruibles();
 	//void draw(RenderTarget& target, RenderStates states) const override;
 	void dibujarFijos(RenderWindow *v);

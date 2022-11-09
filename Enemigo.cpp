@@ -178,40 +178,40 @@ void Enemigo::morir() {
 	case kloster:
 		if (!_estado) {
 			if (__timerMuerte > 100) {
-				_txt.loadFromFile("maxiMuerte1.png");
+				_txt.loadFromFile("KlosterMuerte1.png");
 				_sprite.setTexture(_txt);
 
 				__timerMuerte--;
 			}
 			else if (__timerMuerte > 70) {
-				_txt.loadFromFile("maxiMuerte2.png");
+				_txt.loadFromFile("KlosterMuerte2.png");
 				_sprite.setTexture(_txt);
 
 				__timerMuerte--;
 			}
 			else if (__timerMuerte > 50) {
 
-				_txt.loadFromFile("maxiMuerte3.png");
+				_txt.loadFromFile("KlosterMuerte3.png");
 				_sprite.setTexture(_txt);
 
 				__timerMuerte--;
 			}
 			else if (__timerMuerte > 30) {
 				_sprite.move(-_velocidad);
-				_txt.loadFromFile("maxiMuerte4.png");
+				_txt.loadFromFile("KlosterMuerte4.png");
 				_sprite.setTexture(_txt);
 
 				__timerMuerte--;
 			}
 			else if (__timerMuerte > 10) {
-				_txt.loadFromFile("maxiMuerte5.png");
+				_txt.loadFromFile("KlosterMuerte5.png");
 				_sprite.setTexture(_txt);
 
 				__timerMuerte--;
 			}
 			else if (__timerMuerte > 0) {
 
-				_txt.loadFromFile("maxiMuerte6.png");
+				_txt.loadFromFile("KlosterMuerte6.png");
 				_sprite.setTexture(_txt);
 
 				__timerMuerte--;
@@ -242,7 +242,7 @@ void Enemigo::animacionCaminar(int direccion)
 		cadena = "brian";
 		break;
 	case kloster:
-		cadena = "maxi";
+		cadena = "kloster";
 		break;
 	default:
 		break;
