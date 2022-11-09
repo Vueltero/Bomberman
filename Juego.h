@@ -37,7 +37,11 @@ public:
 	int getEnemigosVivos();
 	void finDeNivel();
 	void pantallaGameOver(RenderWindow *);
+	void mostarStage(RenderWindow* _ventana1, int numeroStage);
 protected:
+
+	Texture _txStage;
+	Sprite _stage;
 
 	Sprite _fondo;
 	Texture _txtFondo;
@@ -69,7 +73,7 @@ protected:
 	int _contadorEnemigosEliminados;
 	int _puntaje;
 	int _tiempoLimite;
-	char _nombre[4];
+	//char _nombre[4];
 	bool _victoria = false;
 
 	bool _gameOver = false;
@@ -87,5 +91,6 @@ protected:
 	int _enemigosAMatar;
 
 	int timerGameOver = 60 * 2;
+	int _timerStage = 60 * 3;
 };
 

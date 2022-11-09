@@ -203,6 +203,8 @@ void Player::animacionCaminar(int direccion) {
 	}
 	__timerCamina--;
 }
+
+
 void Player::morir(int &contadorMuerto) {
 	if (__timerMuerte == 119) {
 		_sonPerderVida.play();

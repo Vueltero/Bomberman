@@ -1,9 +1,9 @@
 #include "Juego.h"
 
 
-Juego::Juego(RenderWindow * _ventana1)
+Juego::Juego(RenderWindow* _ventana1)
 {
-	
+
 	_ventana1->setFramerateLimit(60);
 
 	_txtFondo.loadFromFile("fondo.png");
@@ -11,6 +11,7 @@ Juego::Juego(RenderWindow * _ventana1)
 
 	_txtFondoGameOver.loadFromFile("gameOver.jpg");
 	_fondoGameOver.setTexture(_txtFondoGameOver);
+
 
 	_fuegosV[0].rotarVertical();
 	_fuegosV[1].rotarVertical();
@@ -23,7 +24,7 @@ Juego::Juego(RenderWindow * _ventana1)
 	_enemigos.push_back(*_enemigo2);
 	_enemigos.push_back(*_enemigo3);
 
-	
+
 	Player* _player1 = new Player;
 	_players.push_back(*_player1);
 
@@ -56,7 +57,7 @@ Juego::Juego(RenderWindow * _ventana1)
 	_puntaje = 0;
 	_totalDestruibles = _mapa1->getNumeroDestruibles();
 	_enemigosAMatar = 3;
-	
+
 
 	_acelerar = false;
 	_timerVelocidad = 0;
@@ -92,8 +93,10 @@ void Juego::gamePlay(RenderWindow* _ventana1)
 					play->morir(_contadorCrear);
 			}
 		}
+
+
 		//fin de las 3 vidas y partida, luego cambiar
-		if (_vidas==0) {
+		if (_vidas == 0) {
 			//va pantalla de game over
 			_gameOver = true;//regresa al menu, sin puntos ni estadisticas
 		}
@@ -101,7 +104,7 @@ void Juego::gamePlay(RenderWindow* _ventana1)
 		//Los numeros pares de _contadorCrear son cuando el pj esta vivo y los impares cuando está muerto
 		if (_contadorCrear % 2 != 0) {
 			Player* _player = new Player;
-			_vidas --;
+			_vidas--;
 			_players.push_back(*_player);
 			_contadorCrear++;
 		}
@@ -151,7 +154,7 @@ void Juego::gamePlay(RenderWindow* _ventana1)
 		}
 		//Colsiones con bloques del Enemigo
 		for (it = _enemigos.begin(); it != _enemigos.end(); ++it) {
-			if (_mapa1->comprobarChoqueDestruible(*it) != nullptr && it->getMuriendo() == false && it->getTipo()!=kloster) {
+			if (_mapa1->comprobarChoqueDestruible(*it) != nullptr && it->getMuriendo() == false && it->getTipo() != kloster) {
 
 				it->choqueBloque(_mapa1->comprobarChoqueDestruible(*it));
 			}
@@ -163,7 +166,7 @@ void Juego::gamePlay(RenderWindow* _ventana1)
 		// Destruccion de bloques flojos
 		for (int i = 0; i < 2; i++) {
 			if (_fuegos[i].getEstado()) {
-				_mapa1->comprobarColisionDestruir(_fuegos[i]);	
+				_mapa1->comprobarColisionDestruir(_fuegos[i]);
 			}
 			if (_fuegosV[i].getEstado()) {
 				_mapa1->comprobarColisionDestruir(_fuegosV[i]);
@@ -280,12 +283,6 @@ void Juego::gamePlay(RenderWindow* _ventana1)
 		}
 		for (play = _players.begin(); play != _players.end(); ++play) {
 			if (_mapa1->comprobarColisionPuerta(*play)) {
-				//ganar
-				//victoria();
-				_victoria = true;
-				// play->getSprite().setPosition(_mapa1->getPositionPuerta());
-				//play->animacionGanar(); 
-
 				_gameOver = true;
 			}
 		}
@@ -300,7 +297,7 @@ void Juego::gamePlay(RenderWindow* _ventana1)
 		}
 		int enemigosVivosActuales = getEnemigosVivos();
 		if (_enemigosAMatar > enemigosVivosActuales) {
-			_puntaje += (_enemigosAMatar - enemigosVivosActuales)*10;
+			_puntaje += (_enemigosAMatar - enemigosVivosActuales) * 10;
 			_enemigosAMatar -= (_enemigosAMatar - enemigosVivosActuales);
 		}
 		_textoVidas.setString("VIDAS: " + to_string(_vidas));
@@ -350,9 +347,6 @@ void Juego::dibujar(RenderWindow* _ventana1)
 	for (it = _enemigos.begin(); it != _enemigos.end(); ++it) {
 		_ventana1->draw(*it);
 	}
-	if (_gameOver) {
-		_ventana1->draw(_fondoGameOver);
-	}
 	_ventana1->display();
 }
 int Juego::getEnemigosVivos()
@@ -367,10 +361,6 @@ int Juego::getEnemigosVivos()
 	return cont;
 }
 
-void Juego::finDeNivel()
-{
-	delete this;
-}
 
 void Juego::pantallaGameOver(RenderWindow* _ventana1)
 {
@@ -379,6 +369,19 @@ void Juego::pantallaGameOver(RenderWindow* _ventana1)
 		_ventana1->draw(_fondoGameOver);
 		_ventana1->display();
 		timerGameOver--;
+	}
+}
+
+void Juego::mostarStage(RenderWindow* _ventana1, int numeroStage)
+{
+	string cadena = "stage" + to_string(numeroStage) + ".jpg";
+	_txStage.loadFromFile(cadena);
+	_stage.setTexture(_txStage);
+	while (_timerStage > 0) {
+		_ventana1->clear();
+		_ventana1->draw(_stage);
+		_ventana1->display();
+		_timerStage--;
 	}
 }
 

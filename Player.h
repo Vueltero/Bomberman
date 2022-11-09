@@ -10,7 +10,10 @@ public:
 
 	bool getTocandoBomba(int nBomba) { return _tocandoBomba[nBomba]; }
 	void setTocandoBomba(bool tocando,int nBomba) { _tocandoBomba[nBomba] = tocando; }
+	void setGanando(bool ganando) { _ganando = ganando; }
+	bool getGanando() { return _ganando; }
 
 private:
 	bool _tocandoBomba[2] = {};
+	bool _ganando = false;
 };

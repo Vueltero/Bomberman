@@ -2,7 +2,7 @@
 
 Fuego::Fuego()
 {
-	_txt.loadFromFile("fuegos1.png");
+	_txt.loadFromFile("codigo1.png");
 	_sprite.setTexture(_txt);
 	_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height / 2);
 	_estado = false;
@@ -23,22 +23,22 @@ void Fuego::crearLlama()
 		_sonido.play();
 	}
 	if (_timer > 90) {
-		_txt.loadFromFile("fuegos1.png");
+		_txt.loadFromFile("codigo1.png");
 		_sprite.setTexture(_txt);
 		_timer--;
 	}
 	else if (_timer > 60) {
-		_txt.loadFromFile("fuegos2.png");
+		_txt.loadFromFile("codigo2.png");
 		_sprite.setTexture(_txt);
 		_timer--;
 	}
 	else if (_timer > 30) {
-		_txt.loadFromFile("fuegos3.png");
+		_txt.loadFromFile("codigo3.png");
 		_sprite.setTexture(_txt);
 		_timer--;
 	}
 	else if (_timer > 0) {
-		_txt.loadFromFile("fuegos4.png");
+		_txt.loadFromFile("codigo4.png");
 		_sprite.setTexture(_txt);
 		_timer--;
 	}
@@ -52,5 +52,5 @@ void Fuego::crearLlama()
 
 void Fuego::rotarVertical()
 {
-	_sprite.setRotation(90);
+	_sprite.setRotation(270);
 }
