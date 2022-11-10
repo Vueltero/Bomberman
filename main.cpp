@@ -12,7 +12,6 @@
 #include "Nivel3.h"
 
 int main() {
-	
 	Menu menu(800, 600);
 	menu.run();
 

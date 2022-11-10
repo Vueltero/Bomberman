@@ -67,13 +67,13 @@ Nivel3::Nivel3(RenderWindow* _ventana1, int puntaje, int vidas)
 	_tiempoLimite = 5 * 60 * 60;
 }
 
-void Nivel3::pantallaVictoria(RenderWindow *_ventana1)
+void Nivel3::pantallaVictoria(RenderWindow* _ventana1)
 {
 	_fuente.loadFromFile("fuente.ttf");
 	_textoPuntaje.setFont(_fuente);
-	_textoPuntaje.setString("PUNTAJE TOTAL: "+to_string(_puntaje));
-	_textoPuntaje.setScale(1.3, 1.3);
-	_textoPuntaje.setPosition(180,400);
+	_textoPuntaje.setString("PUNTAJE TOTAL: " + to_string(_puntaje));
+	_textoPuntaje.setScale(1, 1);
+	_textoPuntaje.setPosition(180, 400);
 	_textoPuntaje.setOutlineThickness(.7);
 	if (_timerVictoria == (60 * 5) - 1) {
 
@@ -84,5 +84,12 @@ void Nivel3::pantallaVictoria(RenderWindow *_ventana1)
 		_ventana1->draw(_textoPuntaje);
 		_ventana1->display();
 		_timerVictoria--;
+		Event event;
+		while (_ventana1->pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed) {
+				_ventana1->close();
+			}
+		}
 	}
 }

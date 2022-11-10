@@ -47,7 +47,7 @@ Juego::Juego(RenderWindow* _ventana1)
 
 	_fuente.loadFromFile("fuente.ttf");
 	_textoVidas.setFont(_fuente);
-	_textoVidas.setScale(0.5, 0.5);
+	_textoVidas.setScale(0.3, 0.3);
 	_textoVidas.setPosition(590, 45);
 	_textoPuntaje.setFont(_fuente);
 	_textoPuntaje.setScale(0.5, 0.5);
@@ -386,6 +386,13 @@ void Juego::mostarStage(RenderWindow* _ventana1, int numeroStage)
 		_ventana1->draw(_stage);
 		_ventana1->display();
 		_timerStage--;
+		Event event;
+		while (_ventana1->pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed) {
+				_ventana1->close();
+			}
+		}
 	}
 }
 

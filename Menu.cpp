@@ -57,10 +57,12 @@ void Menu::run() {
 		}break;
 
 		case estadistica: {
+			pantallaEstadisticas(window);
 
 		}break;
 
 		case creditos: {
+			pantallaCreditos(window);
 
 		}break;
 
@@ -92,6 +94,9 @@ void Menu::run() {
 						// se toma en cuenta los puntos al final del ultimo nivel para el archivo y estadisticas.
 						// de acá se toma window para mostrar resultados, siempre nos manejamos con esa ventana.
 						// y Solo puntua cuando gana las 3 pantalalas
+
+						//agregar puntaje.
+						agregarPuntaje(_nivel3->getPuntaje());
 					}
 				}
 			}
@@ -124,11 +129,11 @@ void Menu::run() {
 						}break;
 
 						case 1: {
-							std::cout << "leaderboard" << std::endl;
+							_estado = estadistica;
 						}break;
 
 						case 2: {
-							std::cout << "credits" << std::endl;
+							_estado = creditos;
 							//credits.run() //hace falta una clase de creditos
 						}break;
 
@@ -194,9 +199,185 @@ int Menu::getOpcionSelected()
 	return opcion_selected;
 }
 
-void Menu::ingresar_nombre(sf::RenderWindow* window)
+void Menu::pantallaEstadisticas(RenderWindow* windows)
 {
 
+
+	//window = new sf::RenderWindow(sf::VideoMode(400,100),"Menu");
+	sf::Event event;
+	sf::Sprite fondo;
+	sf::Texture texture;
+	texture.loadFromFile("img/fondo.jpg");
+	fondo.setTexture(texture);
+	Text score[5], titulo, accion;
+	Font fuente;
+	Estadistica* vec = listarEstadisticasOrdenadas();
+	fuente.loadFromFile("fuente.ttf");
+
+	titulo.setPosition(150, 70);
+	//titulo.setColor(Color::Yellow);
+	titulo.setOutlineThickness(5);
+	titulo.setFillColor(Color::Yellow);
+	titulo.setFont(fuente);
+	titulo.setCharacterSize(40);
+	titulo.setString("5 MEJORES");
+	for (int i = 0; i < 5; i++) {
+		//score[i].setColor(Color::Yellow);
+		score[i].setFont(fuente);
+		score[i].setCharacterSize(40);
+		score[i].setOutlineThickness(2.5);
+		score[i].setOutlineColor(Color::Black);
+		score[i].setPosition(160, i * 60 + 200);
+
+		score[i].setString(string(vec[i].getNombre()) + "      " + to_string(vec[i].getPuntaje()));
+	}
+	accion.setFont(fuente);
+	accion.setPosition(150, 520);
+	accion.setFillColor(Color::Black);
+	accion.setOutlineColor(Color::White);
+	accion.setOutlineThickness(1);
+	accion.setCharacterSize(15);
+	accion.setString("Presione Espacio para salir");
+
+	while (_estado == estadistica)
+	{
+		window->clear();
+		//draws
+		window->draw(fondo);
+		window->draw(Text_nombre);
+		for (int i = 0; i < 5; i++) {
+			windows->draw(score[i]);
+		}
+		windows->draw(titulo);
+		windows->draw(accion);
+		//draw(*window);
+		window->display();
+		while (window->pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed) {
+				window->close();
+			}
+			if (event.type == Event::KeyPressed) {
+			}
+			if (event.key.code == Keyboard::Space) {
+				_estado = menu;
+			}
+
+		}
+	}
+}
+
+void Menu::pantallaCreditos(RenderWindow* windows)
+{
+	sf::Event event;
+	sf::Sprite fondo;
+	sf::Texture texture;
+	texture.loadFromFile("img/fondo.jpg");
+	fondo.setTexture(texture);
+	Text score, titulo, accion;
+	Font fuente;
+	Estadistica* vec = listarEstadisticasOrdenadas();
+	fuente.loadFromFile("fuente.ttf");
+
+	titulo.setPosition(80, 70);
+	//titulo.setColor(Color::Yellow);
+	titulo.setOutlineThickness(5);
+	titulo.setFillColor(Color::Yellow);
+	titulo.setFont(fuente);
+	titulo.setCharacterSize(40);
+	titulo.setString(" CREDITOS:");
+
+	score.setFont(fuente);
+	score.setCharacterSize(25);
+	score.setOutlineThickness(2.5);
+	score.setOutlineColor(Color::Black);
+	score.setPosition(80, 160);
+	score.setString(" MAGNAVACHI PABLO\n\n VUELTA AGUSTIN \n\n BELTRAN DANTE \n\n BELTRAN TEO");
+
+	accion.setFont(fuente);
+	accion.setPosition(150, 520);
+	accion.setFillColor(Color::Black);
+	accion.setOutlineColor(Color::White);
+	accion.setOutlineThickness(1);
+	accion.setCharacterSize(15);
+	accion.setString("Presione Espacio para salir");
+
+	while (_estado == creditos)
+	{
+		window->clear();
+		//draws
+		window->draw(fondo);
+		window->draw(Text_nombre);
+		windows->draw(score);
+		windows->draw(titulo);
+		windows->draw(accion);
+		//draw(*window);
+		window->display();
+		while (window->pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed) {
+				window->close();
+			}
+			if (event.type == Event::KeyPressed) {
+			}
+			if (event.key.code == Keyboard::Space) {
+				_estado = menu;
+			}
+
+		}
+	}
+}
+
+void Menu::agregarPuntaje(int puntaje)
+{
+	Estadistica est;
+	est.setNombre(nombre_player);
+	est.setPuntaje(puntaje);
+	est.guardarEnDIsco();
+}
+
+int Menu::cantidadRegistrosEstadistica()
+{
+	Estadistica est;
+	FILE* p = fopen("Estadisticas.dat", "rb");
+	if (p == nullptr)return 0;
+	fseek(p, 0, SEEK_END);
+	int cantidad = ftell(p) / sizeof(Estadistica);
+	fclose(p);
+	return cantidad;
+}
+
+Estadistica* Menu::listarEstadisticasOrdenadas()
+{
+	int cantidad = cantidadRegistrosEstadistica();
+	Estadistica* vec = new Estadistica[cantidad];
+	Estadistica aux;
+	for (int i = 0; i < cantidad; i++) {
+		vec[i].leerEnDisco(i);
+	}
+	for (int i = 0; i < cantidad; i++) {
+		for (int j = 0; j < cantidad - 1; j++) {
+			if (vec[i].getPuntaje() < vec[i + 1].getPuntaje()) {
+				aux = vec[i];
+				vec[i] = vec[i + 1];
+				vec[i + 1] = aux;
+			}
+		}
+	}
+	return vec;
+}
+
+void Menu::ingresar_nombre(sf::RenderWindow* window)
+{
+	Font fuente;
+	Text titulo;
+	fuente.loadFromFile("fuente.ttf");
+	titulo.setPosition(100, 120);
+	titulo.setOutlineThickness(5);
+	titulo.setFillColor(Color::Yellow);
+	titulo.setFont(fuente);
+	titulo.setCharacterSize(25);
+	titulo.setString("INGRESE NOMBRE:");
 	//window = new sf::RenderWindow(sf::VideoMode(400,100),"Menu");
 	sf::Event event;
 	sf::Sprite fondo;
@@ -205,7 +386,7 @@ void Menu::ingresar_nombre(sf::RenderWindow* window)
 	fondo.setTexture(texture);
 
 
-	window->pollEvent(event);
+
 	int letras_ingresadas = 0;
 
 	for (int i = 0; i < 15; i++) {
@@ -218,6 +399,7 @@ void Menu::ingresar_nombre(sf::RenderWindow* window)
 		//draws
 		window->draw(fondo);
 		window->draw(Text_nombre);
+		window->draw(titulo);
 		//draw(*window);
 		window->display();
 
@@ -395,16 +577,16 @@ void Menu::ingresar_nombre(sf::RenderWindow* window)
 				}
 
 
-			if (letras_ingresadas == 4) {//chequea espacios, si se aprieta enter, cambio estado
-				if (event.type == sf::Event::KeyReleased) {
-					if (event.key.code == sf::Keyboard::Enter) {
-						for (int i = 0; i < 4; i++) {
-							nombre_player[i] = NULL;
+				if (letras_ingresadas == 4) {//chequea espacios, si se aprieta enter, cambio estado
+					if (event.type == sf::Event::KeyReleased) {
+						if (event.key.code == sf::Keyboard::Enter) {
+							for (int i = 0; i < 4; i++) {
+								nombre_player[i] = NULL;
+							}
+							_estado = nulo;
 						}
-						_estado = nulo;
 					}
 				}
-			}
 
 			}
 
@@ -414,15 +596,12 @@ void Menu::ingresar_nombre(sf::RenderWindow* window)
 
 
 			Text_nombre.setFont(font);
-			Text_nombre.setFillColor(sf::Color::Black);
+			Text_nombre.setFillColor(sf::Color::White);
 			Text_nombre.setString(nombre_player);
 			Text_nombre.setCharacterSize(40);
+			Text_nombre.setOutlineThickness(3);
+			Text_nombre.setOutlineColor(Color::Black);
 			Text_nombre.setPosition(sf::Vector2f(800 / 2 - letras_ingresadas * 30, 600 / 2));
-
-
-
-
-
 
 		}
 	}

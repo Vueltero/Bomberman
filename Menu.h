@@ -20,7 +20,12 @@ public:
 	void MoveUp();
 	void MoveDown();
 	int getOpcionSelected();
-
+	void setNombre(const char* c) { strcpy(nombre_player, c); }
+	void pantallaEstadisticas(RenderWindow* windows);
+	void pantallaCreditos(RenderWindow* windows);
+	void agregarPuntaje(int puntaje);
+	int cantidadRegistrosEstadistica();
+	Estadistica* listarEstadisticasOrdenadas();
 
 private:
 	estado _estado = menu;
