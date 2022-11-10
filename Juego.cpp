@@ -177,7 +177,7 @@ void Juego::gamePlay(RenderWindow* _ventana1)
 		//poner bomba, solo si no esta muriendo y naturalmente no muerto
 		for (play = _players.begin(); play != _players.end(); ++play) {
 			if (!_dosBombas) {
-				if (Keyboard::isKeyPressed(Keyboard::Space) && _bombas[0].getEstado() == false && play->getMuriendo() == false) {
+				if (Keyboard::isKeyPressed(Keyboard::Space) && _bombas[0].getEstado() == false && play->getMuriendo() == false && _fuegos[0].getEstado() == false && _fuegosV[0].getEstado()==false) {
 					_sonBomba.play();
 					bool estado;
 					_bombas[0].crearExplotar(estado);
@@ -187,7 +187,7 @@ void Juego::gamePlay(RenderWindow* _ventana1)
 			}
 			else {
 				for (int i = 0; i < 2; i++) {
-					if (Keyboard::isKeyPressed(Keyboard::Space) && play->getMuriendo() == false) {
+					if (Keyboard::isKeyPressed(Keyboard::Space) && play->getMuriendo() == false && _fuegos[i].getEstado() == false && _fuegosV[i].getEstado() == false) {
 						if (_bombas[i].getEstado() == false && _tiempoBombas < 0) {
 							_sonBomba.play();
 							bool estado = false;
@@ -231,9 +231,13 @@ void Juego::gamePlay(RenderWindow* _ventana1)
 				bool estado = false;
 				_bombas[i].crearExplotar(estado);
 				_fuegos[i].setEstado(estado);
-				_fuegos[i].setSpritePosition(_bombas[i].getSprite().getPosition());
+				if (_fuegos[i].getEstado()) {
+					_fuegos[i].setSpritePosition(_bombas[i].getSprite().getPosition());
+				}
 				_fuegosV[i].setEstado(estado);
-				_fuegosV[i].setSpritePosition(_bombas[i].getSprite().getPosition());
+				if (_fuegosV[i].getEstado()) {
+					_fuegosV[i].setSpritePosition(_bombas[i].getSprite().getPosition());
+				}
 			}
 		}
 		for (int i = 0; i < 2; i++) {
