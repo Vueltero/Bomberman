@@ -10,5 +10,5 @@ BloqueDestruibles::BloqueDestruibles(int a, int b)
 	_sprite.setTexture(_txt);
 	_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height / 2);
 	_sprite.setPosition(a*45+22.5, b*45+22.5);
-	_estado == true;
+	_estado = true;
 }

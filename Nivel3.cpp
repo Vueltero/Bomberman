@@ -38,7 +38,7 @@ Nivel3::Nivel3(RenderWindow* _ventana1, int puntaje, int vidas)
 
 	_timer2 = 0;
 	_mapa1 = new Mapa;
-	randomNumero = 4;
+	_randomNumero = 4;
 	_contadorCrear = 0;			//contar muerte de pj
 
 	_dosBombas = false;
@@ -72,7 +72,7 @@ void Nivel3::pantallaVictoria(RenderWindow* _ventana1)
 	_fuente.loadFromFile("fuente.ttf");
 	_textoPuntaje.setFont(_fuente);
 	_textoPuntaje.setString("PUNTAJE TOTAL: " + to_string(_puntaje));
-	_textoPuntaje.setScale(1, 1);
+	_textoPuntaje.setCharacterSize(32);
 	_textoPuntaje.setPosition(180, 400);
 	_textoPuntaje.setOutlineThickness(.7);
 	if (_timerVictoria == (60 * 5) - 1) {

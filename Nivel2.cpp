@@ -39,7 +39,7 @@ Nivel2::Nivel2(RenderWindow* _ventana1, int puntaje, int vidas)
 
 	_timer2 = 0;
 	_mapa1 = new Mapa;
-	randomNumero = 4;
+	_randomNumero = 4;
 	_contadorCrear = 0;			//contar muerte de pj
 
 	_dosBombas = false;

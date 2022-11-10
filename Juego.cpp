@@ -38,7 +38,7 @@ Juego::Juego(RenderWindow* _ventana1)
 
 	_timer2 = 0;
 	_mapa1 = new Mapa;
-	randomNumero = 4;
+	_randomNumero = 4;
 	_contadorCrear = 0;			//contar muerte de pj
 
 	_dosBombas = false;
@@ -54,7 +54,7 @@ Juego::Juego(RenderWindow* _ventana1)
 	_textoPuntaje.setPosition(590, 90);
 
 	_vidas = 3;
-	_puntaje = 0;
+	_puntaje = 11;
 	_totalDestruibles = _mapa1->getNumeroDestruibles();
 	_enemigosAMatar = 3;
 

@@ -20,7 +20,7 @@ public:
 	void MoveUp();
 	void MoveDown();
 	int getOpcionSelected();
-	void setNombre(const char* c) { strcpy(nombre_player, c); }
+	//void setNombre(const char* c) { strcpy(_nombreFinal, c); }
 	void pantallaEstadisticas(RenderWindow* windows);
 	void pantallaCreditos(RenderWindow* windows);
 	void agregarPuntaje(int puntaje);
@@ -33,9 +33,10 @@ private:
 	sf::RenderWindow* window;
 	sf::Font font;
 	sf::Text opcion[MAX_NUMBER_OF_ITEMS];
-	char nombre_player[15];
+	string _nombreFinal;
 	sf::Text Text_nombre;
 	void ingresar_nombre(sf::RenderWindow* window);
+	Estadistica* _vec;
 
 };
 

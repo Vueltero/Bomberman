@@ -7,9 +7,9 @@ class  Estadistica
 public:
 	// Estadistica();
 	 int getPuntaje() { return _puntajeTotal; }
-	 const char* getNombre() { return _nombre; }
+	 string getNombre() { return _nombre; }
 	 void setPuntaje(int puntaje) { _puntajeTotal = puntaje; }
-	 void setNombre(const char* nombre) { strcpy(_nombre, nombre); }
+	 void setNombre(string nombre) { strcpy(_nombre, nombre.c_str()); }
 
 	 bool guardarEnDIsco() {
 		 FILE* p = fopen("Estadisticas.dat", "ab");

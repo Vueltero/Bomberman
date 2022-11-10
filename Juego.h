@@ -25,9 +25,6 @@ public:
 	Juego(RenderWindow* _ventana1);
 	void gamePlay(RenderWindow* _ventana1);
 	void dibujar(RenderWindow* _ventana1);
-	void generarEstadistica();
-	void verEstadisticaEnConsola();
-	void victoria();
 	
 	bool getVictoria() { return _victoria; }
 	int getVidas() { return _vidas; }
@@ -35,7 +32,7 @@ public:
 	int getPuntaje() { return _puntaje; }
 	void setPuntaje(int puntaje) { _puntaje = puntaje; }
 	int getEnemigosVivos();
-	void finDeNivel();
+
 	void pantallaGameOver(RenderWindow *);
 	void mostarStage(RenderWindow* _ventana1, int numeroStage);
 protected:
@@ -64,7 +61,7 @@ protected:
 	Fuego* _fuegosV = new Fuego[2];
 	int _timer2;
 	Mapa* _mapa1;
-	int randomNumero;
+	int _randomNumero = 4;
 	int _contadorCrear;
 	int _tiempoBombas;
 	bool _acelerar;
@@ -88,7 +85,7 @@ protected:
 	Text _textoVidas;
 
 	int _totalDestruibles;
-	int _enemigosAMatar;
+	int _enemigosAMatar = 3;
 
 	int timerGameOver = 60 * 2;
 	int _timerStage = 60 * 3;

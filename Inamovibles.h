@@ -10,7 +10,6 @@ public:
 	bool getEstado() { return _estado; }
 	void setEstado(bool estado) { _estado = estado; };
 	Sprite getSprite() { return _sprite; }
-	Vector2f getSpritePosition() { return _sprite.getPosition(); }
 	FloatRect getBounds() const override;
 	void draw(RenderTarget& target, RenderStates states) const override;
 

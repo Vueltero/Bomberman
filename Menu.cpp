@@ -76,6 +76,7 @@ void Menu::run() {
 			}
 			else {
 				Nivel2* _nivel2 = new Nivel2(window, _juego1->getPuntaje(), _juego1->getVidas());
+				delete _juego1;
 				_nivel2->mostarStage(window, 2);
 				_nivel2->gamePlay(window);
 				if (_nivel2->getVidas() == 0) {
@@ -83,6 +84,7 @@ void Menu::run() {
 				}
 				else {
 					Nivel3* _nivel3 = new Nivel3(window, _nivel2->getPuntaje(), _nivel2->getVidas());
+					delete _nivel2;
 					_nivel3->mostarStage(window, 3);
 					_nivel3->gamePlay(window);
 					if (_nivel3->getVidas() == 0) {
@@ -97,6 +99,7 @@ void Menu::run() {
 
 						//agregar puntaje.
 						agregarPuntaje(_nivel3->getPuntaje());
+						delete _nivel3;
 					}
 				}
 			}
@@ -201,7 +204,7 @@ int Menu::getOpcionSelected()
 
 void Menu::pantallaEstadisticas(RenderWindow* windows)
 {
-
+	_vec = listarEstadisticasOrdenadas();
 
 	//window = new sf::RenderWindow(sf::VideoMode(400,100),"Menu");
 	sf::Event event;
@@ -211,7 +214,6 @@ void Menu::pantallaEstadisticas(RenderWindow* windows)
 	fondo.setTexture(texture);
 	Text score[5], titulo, accion;
 	Font fuente;
-	Estadistica* vec = listarEstadisticasOrdenadas();
 	fuente.loadFromFile("fuente.ttf");
 
 	titulo.setPosition(150, 70);
@@ -229,7 +231,7 @@ void Menu::pantallaEstadisticas(RenderWindow* windows)
 		score[i].setOutlineColor(Color::Black);
 		score[i].setPosition(160, i * 60 + 200);
 
-		score[i].setString(string(vec[i].getNombre()) + "      " + to_string(vec[i].getPuntaje()));
+		score[i].setString(_vec[i].getNombre() + "      " + to_string(_vec[i].getPuntaje()));
 	}
 	accion.setFont(fuente);
 	accion.setPosition(150, 520);
@@ -331,7 +333,7 @@ void Menu::pantallaCreditos(RenderWindow* windows)
 void Menu::agregarPuntaje(int puntaje)
 {
 	Estadistica est;
-	est.setNombre(nombre_player);
+	est.setNombre(_nombreFinal);
 	est.setPuntaje(puntaje);
 	est.guardarEnDIsco();
 }
@@ -357,10 +359,10 @@ Estadistica* Menu::listarEstadisticasOrdenadas()
 	}
 	for (int i = 0; i < cantidad; i++) {
 		for (int j = 0; j < cantidad - 1; j++) {
-			if (vec[i].getPuntaje() < vec[i + 1].getPuntaje()) {
-				aux = vec[i];
-				vec[i] = vec[i + 1];
-				vec[i + 1] = aux;
+			if (vec[j].getPuntaje() < vec[j + 1].getPuntaje()) {
+				aux = vec[j];
+				vec[j] = vec[j + 1];
+				vec[j + 1] = aux;
 			}
 		}
 	}
@@ -369,6 +371,7 @@ Estadistica* Menu::listarEstadisticasOrdenadas()
 
 void Menu::ingresar_nombre(sf::RenderWindow* window)
 {
+	char nombre_player[15];
 	Font fuente;
 	Text titulo;
 	fuente.loadFromFile("fuente.ttf");
@@ -577,6 +580,7 @@ void Menu::ingresar_nombre(sf::RenderWindow* window)
 				}
 
 
+			_nombreFinal = nombre_player;
 				if (letras_ingresadas == 4) {//chequea espacios, si se aprieta enter, cambio estado
 					if (event.type == sf::Event::KeyReleased) {
 						if (event.key.code == sf::Keyboard::Enter) {
@@ -602,7 +606,6 @@ void Menu::ingresar_nombre(sf::RenderWindow* window)
 			Text_nombre.setOutlineThickness(3);
 			Text_nombre.setOutlineColor(Color::Black);
 			Text_nombre.setPosition(sf::Vector2f(800 / 2 - letras_ingresadas * 30, 600 / 2));
-
 		}
 	}
 }
