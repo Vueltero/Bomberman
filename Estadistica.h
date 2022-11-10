@@ -5,7 +5,7 @@ using namespace std;
 class  Estadistica
 {
 public:
-	 Estadistica();
+	// Estadistica();
 	 int getPuntaje() { return _puntajeTotal; }
 	 const char* getNombre() { return _nombre; }
 	 void setPuntaje(int puntaje) { _puntajeTotal = puntaje; }
@@ -30,5 +30,5 @@ public:
 
 private:
 	int _puntajeTotal;
-	char _nombre[4];
+	char _nombre[5];
 };

@@ -5,7 +5,7 @@ Bomba::Bomba()
 	_txt.loadFromFile("bomb.png");
 	_sprite.setTexture(_txt);
 	_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height / 2);
-	_timer = 60 * 5;
+	_timer = 60 * 2;
 	_estado = false;
 }
 
@@ -18,7 +18,7 @@ void Bomba::crearExplotar(bool &actLlama)
 	if (_timer == 0) {
 			_estado = false;
 			actLlama = true;
-			_timer = 60 * 5;
+			_timer = 60 * 2;
 	}
 }
 
