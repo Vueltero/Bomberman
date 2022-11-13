@@ -7,8 +7,11 @@ Fuego::Fuego()
 	_sprite.setOrigin(_sprite.getGlobalBounds().width / 2, _sprite.getGlobalBounds().height / 2);
 	_estado = false;
 	
-	_bufSonido.loadFromFile("fuego.wav");
-	_sonido.setBuffer(_bufSonido);
+	_bufSonido = new SoundBuffer;
+	_bufSonido->loadFromFile("fuego.wav");
+	_sonido = new Sound;
+	_sonido->setBuffer(*_bufSonido);
+	_sonido->setVolume(50);
 	_timer = 2 * 60;
 }
 
@@ -20,7 +23,8 @@ void Fuego::setSpritePosition(Vector2f posicion)
 void Fuego::crearLlama()
 {
 	if (_timer == 119) {
-		_sonido.play();
+		if (!_bufSonido->loadFromFile("fuego.wav")) {}
+		_sonido->play();
 	}
 	if (_timer > 90) {
 		_txt.loadFromFile("codigo1.png");

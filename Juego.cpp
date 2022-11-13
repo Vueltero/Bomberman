@@ -28,11 +28,28 @@ Juego::Juego(RenderWindow* _ventana1)
 	Player* _player1 = new Player;
 	_players.push_back(*_player1);
 
-	_bufBomba.loadFromFile("ponerBomba.wav");
-	_sonBomba.setBuffer(_bufBomba);
+	_bufBomba = new SoundBuffer;
+	_sonBomba = new Sound;
+	_bufBomba->loadFromFile("ponerBomba.wav");
+	_sonBomba->setBuffer(*_bufBomba);
+	_sonBomba->setVolume(50);
 
-	_bufItem.loadFromFile("item.wav");
-	_sonItem.setBuffer(_bufItem);
+	_bufItem = new SoundBuffer;
+	_sonItem = new Sound;
+	_bufItem->loadFromFile("item.wav");
+	_sonItem->setBuffer(*_bufItem);
+
+	_bufStage = new SoundBuffer;
+	_sonidoStage = new Sound;
+
+	_bufStage->loadFromFile("stage.wav");
+	_sonidoStage->setBuffer(*_bufStage);
+
+	_bufGameOver = new SoundBuffer;
+	_sonidoGameOver = new Sound;
+
+	_bufGameOver->loadFromFile("gameOver.wav");
+	_sonidoGameOver->setBuffer(*_bufGameOver);
 
 	_timer = 0;
 
@@ -54,7 +71,7 @@ Juego::Juego(RenderWindow* _ventana1)
 	_textoPuntaje.setPosition(590, 90);
 
 	_vidas = 3;
-	_puntaje = 11;
+	_puntaje = 0;
 	_totalDestruibles = _mapa1->getNumeroDestruibles();
 	_enemigosAMatar = 3;
 
@@ -113,7 +130,8 @@ void Juego::gamePlay(RenderWindow* _ventana1)
 			if (_mapa1->comprobarColisionVelocidad(*play)) {
 				_timerVelocidad = 20 * 60;
 				_acelerar = true;
-				_sonItem.play();
+				if(_bufItem->loadFromFile("item.wav")){}
+				_sonItem->play();
 			}
 		}
 		_timerVelocidad--;
@@ -125,7 +143,8 @@ void Juego::gamePlay(RenderWindow* _ventana1)
 			if (_mapa1->comprobarColisionBoostBomba(*play)) {
 				_timerBoostBomba = 20 * 60;
 				_dosBombas = true;
-				_sonItem.play();
+				if(!_bufItem->loadFromFile("item.wav")){}
+				_sonItem->play();
 			}
 		}
 		_timerBoostBomba--;
@@ -178,7 +197,8 @@ void Juego::gamePlay(RenderWindow* _ventana1)
 		for (play = _players.begin(); play != _players.end(); ++play) {
 			if (!_dosBombas) {
 				if (Keyboard::isKeyPressed(Keyboard::Space) && _bombas[0].getEstado() == false && play->getMuriendo() == false && _fuegos[0].getEstado() == false && _fuegosV[0].getEstado()==false) {
-					_sonBomba.play();
+					if(!_bufBomba->loadFromFile("ponerBomba.wav")){}
+					_sonBomba->play();
 					bool estado;
 					_bombas[0].crearExplotar(estado);
 					_bombas[0].setSpritePosition(play->getSprite().getPosition());
@@ -189,7 +209,8 @@ void Juego::gamePlay(RenderWindow* _ventana1)
 				for (int i = 0; i < 2; i++) {
 					if (Keyboard::isKeyPressed(Keyboard::Space) && play->getMuriendo() == false && _fuegos[i].getEstado() == false && _fuegosV[i].getEstado() == false) {
 						if (_bombas[i].getEstado() == false && _tiempoBombas < 0) {
-							_sonBomba.play();
+							if(!_bufBomba->loadFromFile("ponerBomba.wav")){}
+							_sonBomba->play();
 							bool estado = false;
 							_bombas[i].crearExplotar(estado);
 							_bombas[i].setSpritePosition(play->getSprite().getPosition());
@@ -369,10 +390,22 @@ int Juego::getEnemigosVivos()
 void Juego::pantallaGameOver(RenderWindow* _ventana1)
 {
 	while (timerGameOver > 0) {
+		if (timerGameOver == 239) {
+			if(!_bufGameOver->loadFromFile("gameOver.wav")){}
+			_sonidoGameOver->play();
+		}
+
 		_ventana1->clear();
 		_ventana1->draw(_fondoGameOver);
 		_ventana1->display();
 		timerGameOver--;
+		Event event;
+		while (_ventana1->pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed) {
+				_ventana1->close();
+			}
+		}
 	}
 }
 
@@ -381,7 +414,12 @@ void Juego::mostarStage(RenderWindow* _ventana1, int numeroStage)
 	string cadena = "stage" + to_string(numeroStage) + ".jpg";
 	_txStage.loadFromFile(cadena);
 	_stage.setTexture(_txStage);
+	
 	while (_timerStage > 0) {
+		if (_timerStage == 230) {
+			if (!_bufStage->loadFromFile("stage.wav")) {}
+			_sonidoStage->play();
+		}
 		_ventana1->clear();
 		_ventana1->draw(_stage);
 		_ventana1->display();

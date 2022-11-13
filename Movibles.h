@@ -33,10 +33,10 @@ protected:
 	Texture _txt;
 	Sprite _sprite;
 
-	SoundBuffer _bufCamina;
-	Sound _caminar;
-	SoundBuffer _bufPer;
-	Sound _sonPerderVida;
+	SoundBuffer* _bufCamina;
+	Sound* _caminar;
+	SoundBuffer* _bufPer;
+	Sound* _sonPerderVida;
 	int __timerCamina;
 	int _path = 1;
 	int __timerMuerte = 60 * 2;

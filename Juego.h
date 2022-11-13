@@ -74,11 +74,14 @@ protected:
 	bool _victoria = false;
 
 	bool _gameOver = false;
-	SoundBuffer _bufBomba;
-	Sound _sonBomba;
+	SoundBuffer *_bufBomba;
+	Sound *_sonBomba;
 
-	SoundBuffer _bufItem;
-	Sound _sonItem;
+	SoundBuffer *_bufItem;
+	Sound* _sonItem;
+
+	SoundBuffer* _bufGameOver;
+	Sound* _sonidoGameOver;
 
 	Text _textoPuntaje;
 	Font _fuente;
@@ -87,7 +90,10 @@ protected:
 	int _totalDestruibles;
 	int _enemigosAMatar = 3;
 
-	int timerGameOver = 60 * 2;
-	int _timerStage = 60 * 3;
+	int timerGameOver = 60 * 4;
+	int _timerStage = 60 * 4;
+
+	SoundBuffer* _bufStage;
+	Sound *_sonidoStage;
 };
 

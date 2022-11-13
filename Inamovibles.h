@@ -17,6 +17,6 @@ protected:
 	Texture _txt;
 	Sprite _sprite;
 	bool _estado;
-	SoundBuffer _bufSonido;
-	Sound _sonido;
+	SoundBuffer *_bufSonido;
+	Sound *_sonido;
 };

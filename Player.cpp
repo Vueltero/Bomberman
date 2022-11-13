@@ -6,10 +6,14 @@ Player::Player()
 {
 	__timerCamina = 20;
 	_velocidad = { 0,0 };
-	_bufCamina.loadFromFile("caminar.wav");
-	_caminar.setBuffer(_bufCamina);
-	_bufPer.loadFromFile("perderVida.wav");
-	_sonPerderVida.setBuffer(_bufPer);
+	_bufCamina = new SoundBuffer();
+	_bufCamina->loadFromFile("caminar.wav");
+	_caminar = new Sound();
+	_caminar->setBuffer(*_bufCamina);
+	_bufPer = new SoundBuffer();
+	_bufPer->loadFromFile("perderVida.wav");
+	_sonPerderVida = new Sound();
+	_sonPerderVida->setBuffer(*_bufPer);
 	_txt.loadFromFile("down1.png");
 	_sprite.setTexture(_txt);
 	_sprite.setOrigin((_sprite.getGlobalBounds().width ) / 2, (_sprite.getGlobalBounds().height) / 2);
@@ -165,7 +169,8 @@ void Player::animacionCaminar(int direccion) {
 
 	string cadena;
 	if (__timerCamina == 19) {
-		_caminar.play();
+		if(!_bufCamina->loadFromFile("caminar.wav")){}
+		_caminar->play();
 	}
 	
 	if (__timerCamina > 0) {
@@ -207,7 +212,8 @@ void Player::animacionCaminar(int direccion) {
 
 void Player::morir(int &contadorMuerto) {
 	if (__timerMuerte == 119) {
-		_sonPerderVida.play();
+		if (!_bufPer->loadFromFile("perderVida.wav")) {}
+		_sonPerderVida->play();
 	}
 	if (__timerMuerte > 100) {
 		//_sprite.move(-_velocidad);

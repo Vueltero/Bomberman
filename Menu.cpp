@@ -1,6 +1,7 @@
 #include "Menu.h"
 #include <iostream>
 #include <conio.h>
+#include <SFML/Audio.hpp>
 
 
 Menu::Menu(float width, float height)
@@ -340,7 +341,6 @@ void Menu::agregarPuntaje(int puntaje)
 
 int Menu::cantidadRegistrosEstadistica()
 {
-	Estadistica est;
 	FILE* p = fopen("Estadisticas.dat", "rb");
 	if (p == nullptr)return 0;
 	fseek(p, 0, SEEK_END);

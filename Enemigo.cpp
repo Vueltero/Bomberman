@@ -12,6 +12,8 @@ Enemigo::Enemigo(Tipo tipo) {
 	_estado = true;
 	_muriendo = false;
 	_tipo = tipo;
+	_buf = new SoundBuffer;
+	_sonido = new Sound;
 }
 
 void Enemigo::cmd()
@@ -25,7 +27,6 @@ void Enemigo::cmd()
 	if (_tiempoMov == 0) {
 		mt19937 gen(rd());
 		uniform_int_distribution<> dis(0, 4);
-		cout << random << endl;
 		random = dis(gen);
 		_tiempoMov = 60;
 	}
@@ -78,6 +79,11 @@ void Enemigo::morir() {
 	switch (_tipo)
 	{
 	case maxi:
+		if (__timerMuerte == 119) {
+			_buf->loadFromFile("maxi.wav");
+			_sonido->setBuffer(*_buf);
+			_sonido->play();
+		}
 		if (!_estado) {
 			if (__timerMuerte > 100) {
 				_txt.loadFromFile("maxiMuerte1.png");
@@ -127,6 +133,11 @@ void Enemigo::morir() {
 		}
 		break;
 	case brian:
+		if (__timerMuerte == 119) {
+			_buf->loadFromFile("brian.wav");
+			_sonido->setBuffer(*_buf);
+			_sonido->play();
+		}
 		if (!_estado) {
 			if (__timerMuerte > 100) {
 				_txt.loadFromFile("brianMuerte1.png");
@@ -176,6 +187,11 @@ void Enemigo::morir() {
 		}
 		break;
 	case kloster:
+		if (__timerMuerte == 119) {
+			_buf->loadFromFile("kloster.wav");
+			_sonido->setBuffer(*_buf);
+			_sonido->play();
+		}
 		if (!_estado) {
 			if (__timerMuerte > 100) {
 				_txt.loadFromFile("KlosterMuerte1.png");

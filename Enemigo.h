@@ -15,5 +15,8 @@ private:
 	int random =0;
 	int _tiempoMov = 60;
 	Tipo _tipo = maxi;
+
+	SoundBuffer * _buf;
+	Sound * _sonido;
 };
 

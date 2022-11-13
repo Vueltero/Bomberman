@@ -29,11 +29,28 @@ Nivel2::Nivel2(RenderWindow* _ventana1, int puntaje, int vidas)
 	Player* _player1 = new Player;
 	_players.push_back(*_player1);
 
-	_bufBomba.loadFromFile("ponerBomba.wav");
-	_sonBomba.setBuffer(_bufBomba);
+	_bufBomba = new SoundBuffer;
+	_sonBomba = new Sound;
+	_bufBomba->loadFromFile("ponerBomba.wav");
+	_sonBomba->setBuffer(*_bufBomba);
+	_sonBomba->setVolume(50);
 
-	_bufItem.loadFromFile("item.wav");
-	_sonItem.setBuffer(_bufItem);
+	_bufItem = new SoundBuffer;
+	_sonItem = new Sound;
+	_bufItem->loadFromFile("item.wav");
+	_sonItem->setBuffer(*_bufItem);
+
+	_bufStage = new SoundBuffer;
+	_sonidoStage = new Sound;
+
+	_bufStage->loadFromFile("stage.wav");
+	_sonidoStage->setBuffer(*_bufStage);
+
+	_bufGameOver = new SoundBuffer;
+	_sonidoGameOver = new Sound;
+
+	_bufGameOver->loadFromFile("gameOver.wav");
+	_sonidoGameOver->setBuffer(*_bufGameOver);
 
 	_timer = 0;
 

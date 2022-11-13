@@ -53,25 +53,29 @@ void Mapa::generarMapa() {
 	}
 	
 	mt19937 gen(rd());
-	uniform_int_distribution<> dis(0, posD);
-	_bv1.setPosicionSprite(_bd[dis(gen)]->getSprite().getPosition());
+	uniform_int_distribution<> dis(0, posD-1);
+	int inspeccion = dis(gen);
+	_bv1.setPosicionSprite(_bd[inspeccion]->getSprite().getPosition());
 	_bv1.getSprite().move(2.5, 2.5);//centra el boost
 	mt19937 gen2(rd());
-	uniform_int_distribution<> dis2(0, posD);
-	_bv2.setPosicionSprite(_bd[dis2(gen2)]->getSprite().getPosition());
+	uniform_int_distribution<> dis2(0, posD-1);
+	inspeccion = dis2(gen2);
+	_bv2.setPosicionSprite(_bd[inspeccion]->getSprite().getPosition());
 	_bv2.getSprite().move(2.5, 2.5);//centra el boost
 	mt19937 gen3(rd());
-	uniform_int_distribution<> dis3(0, posD);
-	_bb1.setPosicionSprite(_bd[dis3(gen3)]->getSprite().getPosition());
+	uniform_int_distribution<> dis3(0, posD-1);
+	inspeccion = dis3(gen3);
+	_bb1.setPosicionSprite(_bd[inspeccion]->getSprite().getPosition());
 	_bb1.getSprite().move(2.5, 2.5);//centra el boost
-
 	mt19937 gen4(rd());
-	uniform_int_distribution<> dis4(0, posD);
-	_bb2.setPosicionSprite(_bd[dis4(gen4)]->getSprite().getPosition());
+	uniform_int_distribution<> dis4(0, posD-1);
+	inspeccion = dis4(gen4);
+	_bb2.setPosicionSprite(_bd[inspeccion]->getSprite().getPosition());
 	_bb2.getSprite().move(2.5, 2.5);//centra el boost
 	mt19937 gen5(rd());
-	uniform_int_distribution<> dis5(0, posD);
-	_puertaVictoria.setPosicionSprite(_bd[dis5(gen5)]->getSprite().getPosition());
+	uniform_int_distribution<> dis5(0, posD-1);
+	inspeccion = dis5(gen5);
+	_puertaVictoria.setPosicionSprite(_bd[inspeccion]->getSprite().getPosition());
 	_puertaVictoria.getSprite().move(2.5, 2.5);//centra el boost
 }
 void Mapa::dibujarVelocidad(RenderWindow* v) {

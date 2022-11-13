@@ -9,5 +9,8 @@ private:
 	Sprite _pantallaFinal;
 	Texture _txPantalla;
 	int _timerVictoria = 60 * 5;
+
+	SoundBuffer* _bufVictoria;
+	Sound* _sonidoVictoria;
 };
 
