@@ -9,7 +9,5 @@ public:
 
 	void setPosicionSprite(Vector2f v) { _sprite.setPosition(v); }
 	void abrirPuerta();
-private:
-	int _timer;
 };
 

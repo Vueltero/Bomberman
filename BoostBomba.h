@@ -19,5 +19,4 @@ private:
 	Texture _txt;
 	Sprite _sprite;
 	bool _estado;
-	int _timer;
 };

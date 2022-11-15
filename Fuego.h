@@ -5,7 +5,6 @@ class Fuego : public Inamovibles
 {
 private:
 	int _timer;
-	
 public:
 	Fuego();
 	void setSpritePosition(Vector2f posicion);

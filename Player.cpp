@@ -10,10 +10,12 @@ Player::Player()
 	_bufCamina->loadFromFile("caminar.wav");
 	_caminar = new Sound();
 	_caminar->setBuffer(*_bufCamina);
+	_caminar->setVolume(35);
 	_bufPer = new SoundBuffer();
 	_bufPer->loadFromFile("perderVida.wav");
 	_sonPerderVida = new Sound();
 	_sonPerderVida->setBuffer(*_bufPer);
+	_sonPerderVida->setVolume(70);
 	_txt.loadFromFile("down1.png");
 	_sprite.setTexture(_txt);
 	_sprite.setOrigin((_sprite.getGlobalBounds().width ) / 2, (_sprite.getGlobalBounds().height) / 2);
@@ -76,55 +78,11 @@ void Player::cmd(Event evento, bool acelerar)
 		}
 		break;
 	}
-
-	//if (evento.key.code == Keyboard::Down) {
-	//	_velocidad.y = mov;
-	//}
-	//else if (evento.key.code == Keyboard::Up) {
-	//	_velocidad.y = -1 * mov;
-	//}
-	//else if (evento.key.code == Keyboard::Left) {
-	//	_velocidad.x = -1 * mov;
-	//}
-	//else if (evento.key.code == Keyboard::Right) {
-	//	_velocidad.x = mov;
-	//}
-	//if (Keyboard::isKeyPressed(Keyboard::Up)) {
-	//
-	//	_velocidad.y = -1*mov;
-	//}
-	//else if (Keyboard::isKeyPressed(Keyboard::Down)) {
-	//
-	//	_velocidad.y = mov;
-	//}
-	//else if (Keyboard::isKeyPressed(Keyboard::Left)) {
-	//
-	//	_velocidad.x = -1*mov;
-	//}
-	//else if (Keyboard::isKeyPressed(Keyboard::Right)) {
-	//
-	//	_velocidad.x = mov;
-	//
-	//}
 	_sprite.move(_velocidad);
 
 	if (evento.KeyReleased) {
 		_sprite.setPosition(_sprite.getPosition());
 	}
-
-	//if (_velocidad.x < 0) {
-	//	_sprite.setTexture(_txt[3]);
-	//}
-	//else if (_velocidad.x > 0) {
-	//	_sprite.setTexture(_txt[2]);
-	//}
-	//else if (_velocidad.y < 0) {
-	//	_sprite.setTexture(_txt[1]);
-	//}
-	//else if (_velocidad.y > 0) {
-	//	_sprite.setTexture(_txt[0]);
-	//}
-
 	//BORDES
 	float margenAncho = 47 + _sprite.getGlobalBounds().width / 2, margenAlto = 47 + _sprite.getGlobalBounds().height / 2;
 	if (_sprite.getPosition().x < margenAncho) {
@@ -140,31 +98,6 @@ void Player::cmd(Event evento, bool acelerar)
 		_sprite.setPosition(_sprite.getPosition().x, 600 - margenAlto-10);
 	}
 }
-
-//void Player::caminar() {
-//	_sprite.getPosition().x
-//}
-
-//void Player::choqueBloque()
-//{
-//	_sprite.move(-_velocidad);
-//}
-//
-//void Player::draw(sf::RenderTarget& target, sf::RenderStates states) const
-//{
-//	target.draw(_sprite, states);
-//}
-//
-//FloatRect Player::getBounds() const
-//{
-//	
-//	return _sprite.getGlobalBounds();
-//}
-//
-//Sprite Player::getSprite()
-//{
-//	return _sprite;
-//}
 void Player::animacionCaminar(int direccion) {
 
 	string cadena;

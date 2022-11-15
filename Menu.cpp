@@ -37,6 +37,7 @@ Menu::Menu(float width, float height)
 	opcion[3].setOutlineColor(sf::Color::White);
 	opcion[3].setOutlineThickness(1.00);
 
+
 	opcion_selected = 0;
 }
 
@@ -50,7 +51,6 @@ void Menu::run() {
 
 	sf::Event event;
 	while (window->isOpen()) {
-
 		switch (_estado)
 		{
 		case pide_nombre: {
@@ -59,7 +59,6 @@ void Menu::run() {
 
 		case estadistica: {
 			pantallaEstadisticas(window);
-
 		}break;
 
 		case creditos: {
@@ -164,9 +163,6 @@ void Menu::run() {
 		}break;
 
 		}
-
-
-
 	}
 }
 

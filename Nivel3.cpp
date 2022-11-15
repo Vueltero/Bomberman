@@ -58,6 +58,10 @@ Nivel3::Nivel3(RenderWindow* _ventana1, int puntaje, int vidas)
 	_bufGameOver->loadFromFile("gameOver.wav");
 	_sonidoGameOver->setBuffer(*_bufGameOver);
 
+	_musica.openFromFile("juego.wav");
+	_musica.setLoop(true);
+	_musica.setVolume(20);
+
 	_timer = 0;
 
 	_timer2 = 0;
@@ -103,6 +107,7 @@ void Nivel3::pantallaVictoria(RenderWindow* _ventana1)
 	while (_timerVictoria > 0) {
 		if (_timerVictoria == (60 * 5) - 1) {
 			if(!_bufVictoria->loadFromFile("victoria.wav")){}
+			_sonidoVictoria->setVolume(80);
 			_sonidoVictoria->play();
 		}
 		_ventana1->clear();

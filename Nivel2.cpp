@@ -39,6 +39,7 @@ Nivel2::Nivel2(RenderWindow* _ventana1, int puntaje, int vidas)
 	_sonItem = new Sound;
 	_bufItem->loadFromFile("item.wav");
 	_sonItem->setBuffer(*_bufItem);
+	_sonItem->setVolume(50);
 
 	_bufStage = new SoundBuffer;
 	_sonidoStage = new Sound;
@@ -51,6 +52,10 @@ Nivel2::Nivel2(RenderWindow* _ventana1, int puntaje, int vidas)
 
 	_bufGameOver->loadFromFile("gameOver.wav");
 	_sonidoGameOver->setBuffer(*_bufGameOver);
+
+	_musica.openFromFile("juego.wav");
+	_musica.setLoop(true);
+	_musica.setVolume(20);
 
 	_timer = 0;
 

@@ -20,7 +20,7 @@ public:
 	void MoveUp();
 	void MoveDown();
 	int getOpcionSelected();
-	//void setNombre(const char* c) { strcpy(_nombreFinal, c); }
+
 	void pantallaEstadisticas(RenderWindow* windows);
 	void pantallaCreditos(RenderWindow* windows);
 	void agregarPuntaje(int puntaje);
@@ -37,6 +37,5 @@ private:
 	sf::Text Text_nombre;
 	void ingresar_nombre(sf::RenderWindow* window);
 	Estadistica* _vec;
-
 };
 

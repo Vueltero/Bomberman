@@ -5,7 +5,6 @@ using namespace std;
 class  Estadistica
 {
 public:
-	// Estadistica();
 	 int getPuntaje() { return _puntajeTotal; }
 	 string getNombre() { return _nombre; }
 	 void setPuntaje(int puntaje) { _puntajeTotal = puntaje; }

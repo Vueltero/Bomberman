@@ -59,19 +59,19 @@ void Enemigo::cmd()
 	_sprite.move(_velocidad);
 
 	//BORDES
-	float margenAncho = 47 + _sprite.getGlobalBounds().width / 2, margenAlto = 47 + _sprite.getGlobalBounds().height / 2;
-	if (_sprite.getPosition().x < margenAncho) {
-		_sprite.setPosition(margenAncho, _sprite.getPosition().y);
-	}
-	if (_sprite.getPosition().x > 800 - margenAncho) {
-		_sprite.setPosition(800 - margenAncho, _sprite.getPosition().y);
-	}
-	if (_sprite.getPosition().y < margenAlto) {
-		_sprite.setPosition(_sprite.getPosition().x, margenAlto);
-	}
-	if (_sprite.getPosition().y > 600 - margenAlto - 10) {
-		_sprite.setPosition(_sprite.getPosition().x, 600 - margenAlto - 10);
-	}
+	//float margenAncho = 47 + _sprite.getGlobalBounds().width / 2, margenAlto = 47 + _sprite.getGlobalBounds().height / 2;
+	//if (_sprite.getPosition().x < margenAncho) {
+	//	_sprite.setPosition(margenAncho, _sprite.getPosition().y);
+	//}
+	//if (_sprite.getPosition().x > 800 - margenAncho) {
+	//	_sprite.setPosition(800 - margenAncho, _sprite.getPosition().y);
+	//}
+	//if (_sprite.getPosition().y < margenAlto) {
+	//	_sprite.setPosition(_sprite.getPosition().x, margenAlto);
+	//}
+	//if (_sprite.getPosition().y > 600 - margenAlto - 10) {
+	//	_sprite.setPosition(_sprite.getPosition().x, 600 - margenAlto - 10);
+	//}
 }
 void Enemigo::morir() {
 

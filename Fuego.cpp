@@ -11,7 +11,7 @@ Fuego::Fuego()
 	_bufSonido->loadFromFile("fuego.wav");
 	_sonido = new Sound;
 	_sonido->setBuffer(*_bufSonido);
-	_sonido->setVolume(50);
+	_sonido->setVolume(30);
 	_timer = 2 * 60;
 }
 

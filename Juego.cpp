@@ -38,6 +38,7 @@ Juego::Juego(RenderWindow* _ventana1)
 	_sonItem = new Sound;
 	_bufItem->loadFromFile("item.wav");
 	_sonItem->setBuffer(*_bufItem);
+	_sonItem->setVolume(50);
 
 	_bufStage = new SoundBuffer;
 	_sonidoStage = new Sound;
@@ -50,6 +51,11 @@ Juego::Juego(RenderWindow* _ventana1)
 
 	_bufGameOver->loadFromFile("gameOver.wav");
 	_sonidoGameOver->setBuffer(*_bufGameOver);
+
+	_musica.openFromFile("juego.wav");
+	_musica.setLoop(true);
+	_musica.setVolume(20);
+	
 
 	_timer = 0;
 
@@ -87,6 +93,7 @@ Juego::Juego(RenderWindow* _ventana1)
 
 void Juego::gamePlay(RenderWindow* _ventana1)
 {
+	_musica.play();
 	while (!_gameOver) {
 		sf::Event event;
 		while (_ventana1->pollEvent(event)) {
@@ -329,6 +336,7 @@ void Juego::gamePlay(RenderWindow* _ventana1)
 		_textoPuntaje.setString("PUNTAJE: " + to_string(_puntaje));
 		dibujar(_ventana1);
 	}
+	_musica.stop();
 }
 
 void Juego::dibujar(RenderWindow* _ventana1)
@@ -418,6 +426,7 @@ void Juego::mostarStage(RenderWindow* _ventana1, int numeroStage)
 	while (_timerStage > 0) {
 		if (_timerStage == 230) {
 			if (!_bufStage->loadFromFile("stage.wav")) {}
+			_sonidoStage->setVolume(70);
 			_sonidoStage->play();
 		}
 		_ventana1->clear();

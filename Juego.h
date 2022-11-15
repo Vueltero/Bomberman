@@ -70,7 +70,6 @@ protected:
 	int _contadorEnemigosEliminados;
 	int _puntaje;
 	int _tiempoLimite;
-	//char _nombre[4];
 	bool _victoria = false;
 
 	bool _gameOver = false;
@@ -95,5 +94,7 @@ protected:
 
 	SoundBuffer* _bufStage;
 	Sound *_sonidoStage;
+
+	Music _musica;
 };
 
